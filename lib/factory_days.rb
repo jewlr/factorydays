@@ -12,9 +12,19 @@ module FactoryDays
   end
 
   def next_factoryday
+    next_day = self + 1
+    while !Holidays.on(next_day, :jewlr, :bogarz).empty? or ([0,6].include?(next_day.wday) && !self.business_weekends.include?(next_day)) do
+      next_day += 1
+    end
+    return next_day
   end
 
   def prev_factoryday
+    prev_day = self - 1
+    while !Holidays.on(prev_day, :jewlr, :bogarz).empty? or ([0,6].include?(prev_day.wday) && !self.business_weekends.include?(prev_day)) do
+      prev_day -= 1
+    end
+    return prev_day
   end
 
   def factorydays_until(until_date)
