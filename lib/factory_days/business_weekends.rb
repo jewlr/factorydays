@@ -8,6 +8,8 @@ module BusinessWeekends
      ]
 
     bogarz_weekends = [
+      Date.new(2016,2,13),
+      Date.new(2016,2,14)
     ]
 
     if manufacturers.include?(:jewlr) && manufacturers.include?(:bogarz)

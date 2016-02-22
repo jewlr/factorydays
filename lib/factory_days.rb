@@ -57,7 +57,7 @@ module FactoryDays
 
   def factory_days_passed(until_date, *manufacturers)
     manufacturers = check_manufacturers(*manufacturers)
-    return until_date.factory_days_until(self)
+    return until_date.factory_days_until(self, *manufacturers)
   end
 end
 
