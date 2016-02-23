@@ -1,9 +1,6 @@
 # require_relative 'factory_days/business_weekends'
 require_relative 'holidays'
 
-require 'date'
-require 'time'
-
 # module to work with factory days
 module FactoryDays
   def check_manufacturers(*manufacturers)
@@ -66,7 +63,3 @@ class Date
   include FactoryDays
 end
 
-# extending time module to support FactoryDays
-class Time
-  include FactoryDays
-end
