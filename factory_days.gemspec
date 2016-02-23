@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["anish walawalkar"]
   spec.email         = ["anish@jewlr.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{A gem to work with factory days and holidays}
+  spec.description   = %q{A gem to work with facotry days and holidays relating to jewlr and bogarz}
+  spec.homepage      = "https://jewlr.com"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
