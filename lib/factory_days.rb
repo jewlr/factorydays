@@ -1,4 +1,4 @@
-# require_relative 'factory_days/business_weekends'
+require_relative 'factory_days/business_weekends'
 require_relative 'holidays'
 
 require 'date'
@@ -17,9 +17,9 @@ module FactoryDays
     business_weekends(*manufacturers).include?(self) ? true : false
   end
 
-  def next_factory_day(*manufacturers)
+  def next_factory_day(*manufacturers, num_days:1)
     manufacturers = check_manufacturers(*manufacturers)
-    next_day = self + 1
+    next_day = self + num_days
     while !Holidays.on(next_day, *manufacturers).empty? \
       || ([0, 6].include?(next_day.wday) \
       && !business_weekends(*manufacturers).include?(next_day))
@@ -28,9 +28,9 @@ module FactoryDays
     next_day
   end
 
-  def prev_factory_day(*manufacturers)
+  def prev_factory_day(*manufacturers, num_days:1)
     manufacturers = check_manufacturers(*manufacturers)
-    prev_day = self - 1
+    prev_day = self - num_days
     while !Holidays.on(prev_day, *manufacturers).empty? \
       || ([0, 6].include?(prev_day.wday) \
       && !business_weekends(*manufacturers).include?(prev_day))
