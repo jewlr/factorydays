@@ -1,4 +1,3 @@
-require_relative 'factory_days/version'
 require_relative 'factory_days/business_weekends'
 require_relative 'holidays'
 
