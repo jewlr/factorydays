@@ -2,23 +2,19 @@ require 'date'
 
 module BusinessWeekends
   def business_weekends(*manufacturers)
-     jewlr_weekends = [
+    weekends = {
+      :jewlr => [
         Date.new(2016, 2, 6),
         Date.new(2016, 2, 7)
-     ]
+      ],
+      :bogarz => [
+        Date.new(2016,2,13),
+        Date.new(2016,2,14)
+      ]
+    }
 
-    bogarz_weekends = [
-      Date.new(2016,2,13),
-      Date.new(2016,2,14)
-    ]
-
-    if manufacturers.include?(:jewlr) && manufacturers.include?(:bogarz)
-      return jewlr_weekends & bogarz_weekends
-    elsif manufacturers.include?(:jewlr)
-      return jewlr_weekends
-    else
-      return bogarz_weekends
-    end
+    weekend_dates = manufacturers.map{|manufacturer| weekends[manufacturer]}.inject(:&)
+    return weekend_dates
   end
 end
 
