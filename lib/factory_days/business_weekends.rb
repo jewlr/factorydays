@@ -25,4 +25,3 @@ end
 class Date
   include BusinessWeekends
 end
-
