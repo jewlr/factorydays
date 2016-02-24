@@ -71,3 +71,8 @@ class Date
   include ActiveSupport::CoreExtensions::Date::FactoryDays
 end
 
+#extending time module to support FactoryDays
+class Time
+  include ActiveSupport::CoreExtensions::Time::FactoryDays
+end
+
