@@ -6,7 +6,7 @@ module ActiveSupport #:nodoc:
   module CoreExtensions #:nodoc:
     module Date #:nodoc:
       # Enables the use of time calculations within Date itself
-      module Calculations
+      module FactoryDays
         def check_manufacturers(*manufacturers)
           manufacturers.empty? ? manufacturers.push(:jewlr) : manufacturers
         end
@@ -68,6 +68,6 @@ end
 
 # extending date module to support FactoryDays
 class Date
-  include ActiveSupport::CoreExtensions::Date::Calculations
+  include ActiveSupport::CoreExtensions::Date::FactoryDays
 end
 
