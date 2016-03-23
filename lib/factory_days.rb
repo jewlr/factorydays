@@ -22,7 +22,7 @@ module ActiveSupport
           next_day = self
           while day_count < num_days
             next_day += 1.days
-            if next_day.factory_day?
+            if next_day.factory_day(*manufacturers)?
               day_count += 1
             end
           end
@@ -35,7 +35,7 @@ module ActiveSupport
           prev_day = self
           while day_count < num_days
             prev_day -= 1.days
-            if prev_day.factory_day?
+            if prev_day.factory_day(*manufacturers)?
               day_count += 1
             end
           end
