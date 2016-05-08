@@ -45,7 +45,7 @@ module ActiveSupport
         def days_calculator(until_date, *manufacturers)
           holidays_count = Holidays.between(self, until_date, *manufacturers).size
           weekends_count = (self...until_date).count { |dt| business_weekends(*manufacturers).include?(dt) }
-          weekdays_count = (self...until_date).count { |dt| ![0, 6].include?(dt.wday) }
+          weekdays_count = (self...until_date).count { |dt| ![0, 6].include?(dt.wday) } + ([0, 6].include?(self.wday) ? 1 : 0)
           weekdays_count + weekends_count - holidays_count
         end
 
