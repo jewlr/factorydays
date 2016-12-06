@@ -1,5 +1,11 @@
 # require_relative 'factory_days/business_weekends'
 require_relative 'holidays'
+begin
+  require 'google/apis/calendar_v3'
+  #require 'google/api_client'
+rescue LoadError
+  raise "Could not load the google-api-client gem.  Use `gem install google-api-client` to install it."
+end
 
 module ActiveSupport
   module CoreExtensions
