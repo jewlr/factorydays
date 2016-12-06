@@ -43,10 +43,10 @@ module Holidays
               {:wday => 1, :week => 2, :name => "Thanksgiving", :regions => [:jewlr]}
             ],
       12 => [
-              {:mday => 24, :name => "Christmas Eve", :regions => [:jewlr]},
+              {:mday => 24, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => "Christmas Eve", :regions => [:jewlr]},
               {:mday => 25, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Christmas Day", :regions => [:jewlr]},
               {:mday => 26, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Boxing Day", :regions => [:jewlr]},
-              {:mday => 31, :name => "New Years Eve", :regions => [:jewlr]}
+              {:mday => 31, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => "New Year's Eve", :regions => [:jewlr]}
             ]
       }
     end
