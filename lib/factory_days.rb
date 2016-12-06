@@ -11,11 +11,8 @@ module ActiveSupport
 
         def factory_day?(*manufacturers)
           manufacturers = check_manufacturers(*manufacturers)
-          if (1..5).cover?(wday) && Holidays.on(self, *manufacturers, :observed).empty?
-            return true
-          else
-            return business_weekends(*manufacturers).include?(self) ? true : false
-          end
+          return true if (1..5).cover?(wday) && Holidays.on(self, *manufacturers, :observed).empty?
+          return business_weekends(*manufacturers).include?(self) ? true : false
         end
 
         def next_factory_day(*manufacturers, num_days:1)
