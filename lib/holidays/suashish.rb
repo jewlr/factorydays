@@ -104,7 +104,42 @@ module Holidays
                 ]
         }
       when 2017
-
+        return {
+          3 => [
+                  {:mday => 13, :name => ACCEPTED_CUSTOM_HOLIDAYS[0], :regions => [:suashish]},
+                  {:mday => 29, :name => ACCEPTED_CUSTOM_HOLIDAYS[1], :regions => [:suashish]}
+               ],
+          4 => [
+                  {:mday => 9, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => ACCEPTED_CUSTOM_HOLIDAYS[2], :regions => [:suashish]}
+               ],
+          5 => [
+                  {:mday => 10, :name => ACCEPTED_CUSTOM_HOLIDAYS[3], :regions => [:suashish]}
+               ],
+          6 => [
+                  {:mday => 25, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => ACCEPTED_CUSTOM_HOLIDAYS[4], :regions => [:suashish]}
+               ],
+          8 => [
+                  {:mday => 15, :name => ACCEPTED_CUSTOM_HOLIDAYS[5], :regions => [:suashish]},
+                  {:mday => 25, :name => ACCEPTED_CUSTOM_HOLIDAYS[6], :regions => [:suashish]}
+               ],
+          9 => [
+                  {:mday => 2, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => ACCEPTED_CUSTOM_HOLIDAYS[7], :regions => [:suashish]},
+                  {:mday => 5, :name => ACCEPTED_CUSTOM_HOLIDAYS[8], :regions => [:suashish]},
+                  {:mday => 17, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => ACCEPTED_CUSTOM_HOLIDAYS[9], :regions => [:suashish]},
+                  {:mday => 30, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => ACCEPTED_CUSTOM_HOLIDAYS[10], :regions => [:suashish]}
+               ],
+          10 => [
+                  {:mday => 1, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => ACCEPTED_CUSTOM_HOLIDAYS[11], :regions => [:suashish]},
+                  {:mday => 18, :name => ACCEPTED_CUSTOM_HOLIDAYS[12], :regions => [:suashish]},
+                  {:mday => 21, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => ACCEPTED_CUSTOM_HOLIDAYS[13], :regions => [:suashish]}
+                ],
+          11 => [
+                  {:mday => 4, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => ACCEPTED_CUSTOM_HOLIDAYS[14], :regions => [:suashish]}
+                ],
+          12 => [
+                  {:mday => 1, :name => ACCEPTED_CUSTOM_HOLIDAYS[15], :regions => [:suashish]}
+                ]
+        }
       end
 
       return {}
