@@ -1,9 +1,9 @@
-begin
-  require 'google/apis/calendar_v3'
-  require 'google/api_client'
-rescue
-  raise "Could not load the google-api-client gem.  Use `gem install google-api-client` to install it."
-end
+#begin
+#  require 'google/apis/calendar_v3'
+#  require 'google/api_client'
+#rescue
+#  raise "Could not load the google-api-client gem.  Use `gem install google-api-client` to install it."
+#end
 
 # encoding: utf-8
 module Holidays
