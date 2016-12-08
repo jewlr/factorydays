@@ -27,12 +27,10 @@ module Holidays
     end
 
     def self.holidays_by_month
-
-
-
+      additional_holidays = india_holidays(Date.today.year)
       {
       0 =>  [
-              {:function => lambda { |year| Holidays.easter(year)-2 }, :function_id => "easter(year)-2", :name => "Good Friday", :regions => [:jewlr]}
+              {:function => lambda { |year| Holidays.easter(year)-2 }, :function_id => "easter(year)-2", :name => "Good Friday", :regions => [:suashish]}
             ],
       1 =>  [
               {:mday => 1, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "New Year's Day", :regions => [:suashish]},
@@ -42,14 +40,12 @@ module Holidays
               {:mday => 15, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Independence Day", :regions => [:suashish]}
             ],
       12 => [
-              {:mday => 31, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "New Year's Eve", :regions => [:bogarz]}
+              {:mday => 31, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "New Year's Eve", :regions => [:suashish]}
             ]
-      }
+      }.merge(additional_holidays) {|k,a,b| a.push(*b)}
     end
 
-    private
-
-    def india_holidays
+    def self.india_holidays(year)
       key = Google::APIClient::KeyUtils.load_from_pkcs12('Calender-19f407cc399c.p12', 'notasecret')
       client = Google::APIClient.new
       client.authorization = Signet::OAuth2::Client.new(
@@ -62,15 +58,15 @@ module Holidays
 
       service = Google::Apis::CalendarV3::CalendarService.new
       service.client_options.application_name = 'Calender'
+      token = 'ya29.ElmuA8zZ_2laOJVur78FzWYb_tEtXTg9MuVGQdkVxE2aqZ3juQf7z6s-qV0Og0ZP_rWje_dgbMPNNkcnuV1MGZw2xsq0Fo7FMu_a0NrX5OA9BV64VXcVyO8xCA'
       service.authorization = client.authorization.access_token
 
-      response = service.list_events(INDIA_HOLIDAYS_CALENDER_ID, single_events: true)
+      response = service.list_events(INDIA_HOLIDAYS_CALENDER_ID, single_events: true, time_min: Time.new(year).iso8601, time_max: Time.new(year+1).iso8601)
 
-      response.items.each do |event|
-        start = event.start.date || event.start.date_time
-        puts "- #{event.summary} (#{start})"
-      end
+      return response.items.reject{|e| !ACCEPTED_CUSTOM_HOLIDAYS.include?(e.summary)}.group_by{|e| Date.parse(e.start.date || e.start.date_time).month}.inject({}){|h,(g,a)| h.merge g => a.map{|e| {:mday => Date.parse(e.start.date || e.start.date_time).mday, :name => e.summary, :regions => [:suashish]}}}
     end
+
+    private_class_method :india_holidays
   end
 end
 

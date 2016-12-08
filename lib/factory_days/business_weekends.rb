@@ -10,7 +10,8 @@ module BusinessWeekends
       :bogarz => [
         Date.new(2016,2,13),
         Date.new(2016,2,14)
-      ]
+      ],
+      :suashish => []
     }
 
     weekend_dates = manufacturers.map{|manufacturer| weekends[manufacturer]}.inject(:&)
