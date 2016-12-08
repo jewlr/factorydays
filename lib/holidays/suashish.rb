@@ -40,7 +40,7 @@ module Holidays
               {:mday => 15, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Independence Day", :regions => [:suashish]}
             ],
       12 => [
-              {:mday => 31, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "New Year's Eve", :regions => [:suashish]}
+              {:mday => 31, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => "New Year's Eve", :regions => [:suashish]}
             ]
       }.merge(additional_holidays) {|k,a,b| a.push(*b)}
     end
@@ -65,7 +65,49 @@ module Holidays
 
       #return response.items.reject{|e| !ACCEPTED_CUSTOM_HOLIDAYS.include?(e.summary)}.group_by{|e| Date.parse(e.start.date || e.start.date_time).month}.inject({}){|h,(g,a)| h.merge g => a.map{|e| {:mday => Date.parse(e.start.date || e.start.date_time).mday, :name => e.summary, :regions => [:suashish]}}}
 
+      case year
+      when 2016
+        return {
+          3 => [
+                  {:mday => 24, :name => ACCEPTED_CUSTOM_HOLIDAYS[0], :regions => [:suashish]}
+               ],
+          4 => [
+                  {:mday => 8, :name => ACCEPTED_CUSTOM_HOLIDAYS[1], :regions => [:suashish]},
+                  {:mday => 19, :name => ACCEPTED_CUSTOM_HOLIDAYS[2], :regions => [:suashish]}
+               ],
+          5 => [
+                  {:mday => 21, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => ACCEPTED_CUSTOM_HOLIDAYS[3], :regions => [:suashish]}
+               ],
+          7 => [
+                  {:mday => 6, :name => ACCEPTED_CUSTOM_HOLIDAYS[4], :regions => [:suashish]}
+               ],
+          8 => [
+                  {:mday => 25, :name => ACCEPTED_CUSTOM_HOLIDAYS[5], :regions => [:suashish]}
+               ],
+          9 => [
+                  {:mday => 5, :name => ACCEPTED_CUSTOM_HOLIDAYS[6], :regions => [:suashish]},
+                  {:mday => 12, :name => ACCEPTED_CUSTOM_HOLIDAYS[7], :regions => [:suashish]},
+                  {:mday => 15, :name => ACCEPTED_CUSTOM_HOLIDAYS[8], :regions => [:suashish]},
+                  {:mday => 17, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => ACCEPTED_CUSTOM_HOLIDAYS[9], :regions => [:suashish]}
+               ],
+          10 => [
+                  {:mday => 11, :name => ACCEPTED_CUSTOM_HOLIDAYS[10], :regions => [:suashish]},
+                  {:mday => 12, :name => ACCEPTED_CUSTOM_HOLIDAYS[11], :regions => [:suashish]},
+                  {:mday => 29, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => ACCEPTED_CUSTOM_HOLIDAYS[12], :regions => [:suashish]}
+                ],
+          11 => [
+                  {:mday => 1, :name => ACCEPTED_CUSTOM_HOLIDAYS[13], :regions => [:suashish]},
+                  {:mday => 14, :name => ACCEPTED_CUSTOM_HOLIDAYS[14], :regions => [:suashish]}
+                ],
+          12 => [
+                  {:mday => 12, :name => ACCEPTED_CUSTOM_HOLIDAYS[15], :regions => [:suashish]}
+                ]
+        }
+      when 2017
 
+      end
+
+      return {}
     end
 
     private_class_method :india_holidays
