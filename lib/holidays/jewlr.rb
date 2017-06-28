@@ -31,7 +31,7 @@ module Holidays
               {:function => lambda { |year| Holidays.ca_victoria_day(year) }, :function_id => "ca_victoria_day(year)", :name => "Victoria Day", :regions => [:jewlr]}
             ],
       7 =>  [
-              {:mday => 1, :observed => lambda { |date| Holidays.to_monday_if_sunday(date) }, :observed_id => "to_monday_if_sunday", :name => "Canada Day", :regions => [:jewlr]}
+              {:mday => 1, :observed => lambda { |date| Holidays.to_monday_if_weekend(date) }, :observed_id => "to_monday_if_weekend", :name => "Canada Day", :regions => [:jewlr]}
             ],
       8 =>  [
               {:wday => 1, :week => 1, :name => "Civic Holiday", :regions => [:jewlr]}

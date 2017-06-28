@@ -57,7 +57,7 @@ module Holidays
             {:mday => 21, :name => "National Aboriginal Day", :regions => [:ca_nt]},
             {:wday => 0, :week => 3, :type => :informal, :name => "Día del Padre", :regions => [:mx]},
             {:wday => 0, :week => 3, :type => :informal, :name => "Father's Day", :regions => [:us, :ca]}],
-      7 => [{:mday => 1, :observed => lambda { |date| Holidays.to_monday_if_sunday(date) }, :observed_id => "to_monday_if_sunday", :name => "Canada Day", :regions => [:ca]},
+      7 => [{:mday => 1, :observed => lambda { |date| Holidays.to_monday_if_weekend(date) }, :observed_id => "to_monday_if_weekend", :name => "Canada Day", :regions => [:ca]},
             {:mday => 12, :name => "Orangemen's Day", :regions => [:ca_nf]},
             {:mday => 9, :name => "Nunavut Day", :regions => [:ca_nu]},
             {:mday => 4, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Independence Day", :regions => [:us]}],
