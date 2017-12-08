@@ -1,7 +1,11 @@
 require 'date'
 
 module BusinessWeekends
-  def business_weekends(*manufacturers)
+  def business_weekends(holiday_region=[])
+    return []
+
+    holiday_region = Array(holiday_region)
+
     weekends = {
       :jewlr => [
         Date.new(2016, 2, 6),
@@ -13,7 +17,7 @@ module BusinessWeekends
       ]
     }
 
-    weekend_dates = manufacturers.map{|manufacturer| weekends[manufacturer]}.inject(:&)
+    weekend_dates = holiday_region.map{|manufacturer| weekends[manufacturer]}.inject(:&)
     return weekend_dates
   end
 end
