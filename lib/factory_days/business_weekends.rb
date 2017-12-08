@@ -1,9 +1,9 @@
 require 'date'
 
 module BusinessWeekends
+  # NOTE: This can be overriden in project
   def business_weekends(holiday_region=[])
-    return []
-
+    return [] unless holiday_region.any?
     holiday_region = Array(holiday_region)
 
     weekends = {
