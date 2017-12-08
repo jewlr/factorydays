@@ -15,13 +15,17 @@ module ActiveSupport
           return business_weekends(*manufacturers).include?(self) ? true : false
         end
 
-        def next_factory_day(*manufacturers, num_days:1)
+        def next_factory_day(*manufacturers, num_days: 1, check_holiday_on_start_date_only: false, secondary_holiday_region: nil)
           manufacturers = check_manufacturers(*manufacturers)
           day_count = 0
           next_day = self
           while day_count < num_days
             next_day += 1.days
-            if next_day.factory_day?(*manufacturers)
+            holiday_region = check_holiday_on_start_date_only ? nil : *manufacturers
+            if secondary_holiday_region && !check_holiday_on_start_date_only
+              holiday_region = secondary_holiday_region
+            end
+            if next_day.factory_day?(holiday_region)
               day_count += 1
             end
           end
