@@ -66,7 +66,7 @@ module ActiveSupport
 
         def days_calculator(until_date, holiday_region=nil)
           holiday_region = holiday_region ? Array(holiday_region) : nil
-          holidays_count = Holidays.between(self, until_date, holiday_region).size
+          holidays_count = Holidays.between(self, until_date, holiday_region).select{|holiday|holiday[:date].wday != 0 && holiday[:date].wday != 6}.size
           weekends_count = (self...until_date).count { |dt| business_weekends(holiday_region).include?(dt) }
           weekdays_count = (self...until_date).count { |dt| ![0, 6].include?(dt.wday) } + ([0, 6].include?(self.wday) ? 1 : 0)
           weekdays_count + weekends_count - holidays_count
