@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # require_relative 'factory_days/business_weekends'
 require_relative 'holidays'
 
@@ -5,61 +7,101 @@ module ActiveSupport
   module CoreExtensions
     module Date
       module FactoryDays
+        def factory_day?(options = {})
+          # options
+          # :holiday_region
+          # :include_saturday
+          # :include_sunday
+          # :include_weekends
+          holiday_region = if options[:holiday_region]
+                             Array(options[:holiday_region])
+                           end
 
-        def factory_day?(holiday_region=nil)
-          holiday_region = holiday_region ? Array(holiday_region) : nil
-          if holiday_region
-            return true if (1..5).cover?(wday) && Holidays.on(self, *holiday_region, :observed).empty?
-          else
-            return true if (1..5).cover?(wday) && Holidays.on(self, :observed).empty?
+          is_holiday = if holiday_region
+                         Holidays.on(self, *holiday_region, :observed).any?
+                       else
+                         Holidays.on(self, :observed).any?
+                       end
+
+          if !is_holiday && (
+               (1..5).cover?(wday) ||
+               options[:include_saturday] && wday == 6 ||
+               options[:include_sunday] && wday == 0 ||
+               options[:include_weekends] && [0, 6].include?(wday)
+             )
+            return true
           end
-          result = business_weekends(holiday_region)
-          result = result && result.include?(self) ? true : false
-          return result
+
+          # result = business_weekends(holiday_region)
+          # result = result && result.include?(self) ? true : false
+          false
         end
 
-        def next_factory_day(options={})
+        def next_factory_day(options = {})
           # options
           # :num_days
           # :holiday_region
           # :check_holiday_start_date_only
           # :secondary_holiday_region
+          # :include_saturday
+          # :include_sunday
+          # :include_weekends
 
           num_days = options[:num_days] || 1
-          holiday_region = options[:holiday_region] ? Array(options[:holiday_region]) : nil
-          check_holiday_on_start_date_only = options[:check_holiday_start_date_only] || false
+          holiday_region = if options[:holiday_region]
+                             Array(options[:holiday_region])
+                           end
+          check_holiday_on_start_date_only =
+            options[:check_holiday_start_date_only] || false
           secondary_holiday_region = options[:secondary_holiday_region]
 
           day_count = 0
           next_day = self
           while day_count < num_days
             next_day += 1.days
-            holiday_region = check_holiday_on_start_date_only ? nil : holiday_region
+            holiday_region = if check_holiday_on_start_date_only
+                               nil
+                             else
+                               holiday_region
+                             end
             if secondary_holiday_region && !check_holiday_on_start_date_only
               holiday_region = secondary_holiday_region
             end
-            if next_day.factory_day?(holiday_region)
-              day_count += 1
-            end
+
+            factory_day_params = {
+              holiday_region: holiday_region,
+              include_saturday: options[:include_saturday],
+              include_sunday: options[:include_sunday],
+              include_weekends: options[:include_weekends]
+            }
+            day_count += 1 if next_day.factory_day?(factory_day_params)
           end
           next_day
         end
 
-        def prev_factory_day(options={})
+        def prev_factory_day(options = {})
           # options
           # :num_days
           # :holiday_region
+          # :include_saturday
+          # :include_sunday
+          # :include_weekends
 
           num_days = options[:num_days] || 1
           holiday_region = options[:holiday_region] ? Array(options[:holiday_region]) : nil
+
+          factory_day_params = {
+            holiday_region: holiday_region,
+            include_saturday: options[:include_saturday],
+            include_sunday: options[:include_sunday],
+            include_weekends: options[:include_weekends]
+          }
 
           day_count = 0
           prev_day = self
           while day_count < num_days
             prev_day -= 1.days
-            if prev_day.factory_day?(holiday_region)
-              day_count += 1
-            end
+            day_count += 1 if prev_day.factory_day?(factory_day_params)
           end
           prev_day
         end
@@ -95,42 +137,74 @@ module ActiveSupport
   module CoreExtensions
     module Time
       module FactoryDays
+        def factory_day?(options = {})
+          # options
+          # :holiday_region
+          # :include_saturday
+          # :include_sunday
+          # :include_weekends
+          holiday_region = if options[:holiday_region]
+                             Array(options[:holiday_region])
+                           end
 
-        def factory_day?(holiday_region=nil)
-          holiday_region = holiday_region ? Array(holiday_region) : nil
-          if holiday_region
-            return true if (1..5).cover?(wday) && Holidays.on(self, *holiday_region, :observed).empty?
-          else
-            return true if (1..5).cover?(wday) && Holidays.on(self, :observed).empty?
+          is_holiday = if holiday_region
+                         Holidays.on(self, *holiday_region, :observed).any?
+                       else
+                         Holidays.on(self, :observed).any?
+                       end
+
+          if !is_holiday && (
+               (1..5).cover?(wday) ||
+               options[:include_saturday] && wday == 6 ||
+               options[:include_sunday] && wday == 0 ||
+               options[:include_weekends] && [0, 6].include?(wday)
+             )
+            return true
           end
-          result = business_weekends(holiday_region)
-          result = result && result.include?(self) ? true : false
-          return result
+
+          # result = business_weekends(holiday_region)
+          # result = result && result.include?(self) ? true : false
+          false
         end
 
-        def next_factory_day(options={})
+        def next_factory_day(options = {})
           # options
           # :num_days
           # :holiday_region
           # :check_holiday_start_date_only
           # :secondary_holiday_region
+          # :include_saturday
+          # :include_sunday
+          # :include_weekends
 
           num_days = options[:num_days] || 1
-          holiday_region = options[:holiday_region] ? Array(options[:holiday_region]) : nil
-          check_holiday_on_start_date_only = options[:check_holiday_start_date_only] || false
+          holiday_region = if options[:holiday_region]
+                             Array(options[:holiday_region])
+                           end
+          check_holiday_on_start_date_only =
+            options[:check_holiday_start_date_only] || false
           secondary_holiday_region = options[:secondary_holiday_region]
 
           day_count = 0
           next_day = self
           while day_count < num_days
             next_day += 1.days
-            holiday_region = check_holiday_on_start_date_only ? nil : holiday_region
+            holiday_region = if check_holiday_on_start_date_only
+                               nil
+                             else
+                               holiday_region
+                             end
             if secondary_holiday_region && !check_holiday_on_start_date_only
               holiday_region = secondary_holiday_region
             end
-            if next_day.factory_day?(holiday_region)
-              day_count += 1
-            end
+
+            factory_day_params = {
+              holiday_region: holiday_region,
+              include_saturday: options[:include_saturday],
+              include_sunday: options[:include_sunday],
+              include_weekends: options[:include_weekends]
+            }
+            day_count += 1 if next_day.factory_day?(factory_day_params)
           end
           next_day
         end
@@ -139,17 +213,25 @@ module ActiveSupport
           # options
           # :num_days
           # :holiday_region
+          # :include_saturday
+          # :include_sunday
+          # :include_weekends
 
           num_days = options[:num_days] || 1
           holiday_region = options[:holiday_region] ? Array(options[:holiday_region]) : nil
+
+          factory_day_params = {
+            holiday_region: holiday_region,
+            include_saturday: options[:include_saturday],
+            include_sunday: options[:include_sunday],
+            include_weekends: options[:include_weekends]
+          }
 
           day_count = 0
           prev_day = self
           while day_count < num_days
             prev_day -= 1.days
-            if prev_day.factory_day?(holiday_region)
-              day_count += 1
-            end
+            day_count += 1 if prev_day.factory_day?(factory_day_params)
           end
           prev_day
         end
@@ -163,7 +245,7 @@ class Date
   include ActiveSupport::CoreExtensions::Date::FactoryDays
 end
 
-#extending time module to support FactoryDays
+# extending time module to support FactoryDays
 class Time
   include ActiveSupport::CoreExtensions::Time::FactoryDays
 end
