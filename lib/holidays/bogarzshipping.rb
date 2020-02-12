@@ -21,6 +21,10 @@ module Holidays
       1 =>  [
               {:mday => 1, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "New Year's Day", :regions => [:bogarzshipping]}
             ],
+      2 =>  [
+             {:wday => 1, :week => 3, :name => "President's Day", :regions => [:bogarzshipping]}
+            ],
+
       5 =>  [
               {:wday => 1, :week => -1, :name => "Memorial Day", :regions => [:bogarzshipping]}
             ],
