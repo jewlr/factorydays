@@ -113,27 +113,28 @@ module ActiveSupport
           prev_day
         end
 
-        def days_calculator(until_date, holiday_region=nil)
-          holiday_region = holiday_region ? Array(holiday_region) : nil
-          holidays_count = Holidays.between(self, until_date, holiday_region).select{|holiday|holiday[:date].wday != 0 && holiday[:date].wday != 6}.size
-          weekends_count = (self...until_date).count { |dt| business_weekends(holiday_region).include?(dt) }
-          weekdays_count = (self...until_date).count { |dt| ![0, 6].include?(dt.wday) } + ([0, 6].include?(self.wday) ? 1 : 0)
-          weekdays_count + weekends_count - holidays_count
-        end
+        def factory_days_until(until_date, options = {})
+          # options
+          # :holiday_region
+          # :include_saturday
+          # :include_sunday
+          # :include_weekends
 
-        def factory_days_until(until_date, holiday_region=nil)
           return 0 if self > until_date
 
-          holiday_region = holiday_region ? Array(holiday_region) : nil
-          if holiday_region.include?(:jewlr) && holiday_region.include?(:bogarz)
-            return [days_calculator(until_date, :jewlr), days_calculator(until_date, :bogarz)].max
+          ((self + 1.day)..until_date).count do |date|
+            date.factory_day?(options)
           end
-          days_calculator(until_date, holiday_region)
         end
 
-        def factory_days_passed(until_date, holiday_region)
-          holiday_region = holiday_region ? Array(holiday_region) : nil
-          until_date.factory_days_until(self, holiday_region)
+        def factory_days_passed(until_date, options = {})
+          # options
+          # :holiday_region
+          # :include_saturday
+          # :include_sunday
+          # :include_weekends
+          options[:holiday_region] = Array(options[:holiday_region]) if options[:holiday_region]
+          until_date.factory_days_until(self, options)
         end
       end
     end
