@@ -106,6 +106,7 @@ module ActiveSupport
 
           day_count = 0
           prev_day = self
+          prev_day -= 1.day until prev_day.factory_day?(factory_day_params)
           while day_count < num_days
             prev_day -= 1.days
             day_count += 1 if prev_day.factory_day?(factory_day_params)
@@ -116,14 +117,29 @@ module ActiveSupport
         def factory_days_until(until_date, options = {})
           # options
           # :holiday_region
+          # :check_holiday_start_date_only
+          # :secondary_holiday_region
           # :include_saturday
           # :include_sunday
           # :include_weekends
 
           return 0 if self > until_date
 
+          check_holiday_on_start_date_only =
+            options[:check_holiday_start_date_only] || false
+          secondary_holiday_region = options[:secondary_holiday_region]
+          factory_days_until_params = {
+            holiday_region: options[:holiday_region],
+            include_saturday: options[:include_saturday],
+            include_sunday: options[:include_sunday],
+            include_weekends: options[:include_weekends]
+          }
+          if secondary_holiday_region && !check_holiday_on_start_date_only
+            holiday_region = secondary_holiday_region
+          end
+          factory_days_until_params[:holiday_region] = holiday_region
           ((self + 1.day)..until_date).count do |date|
-            date.factory_day?(options)
+            date.factory_day?(factory_days_until_params)
           end
         end
 
