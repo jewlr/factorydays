@@ -82,4 +82,4 @@ module Holidays
   end
 end
 
-Holidays.merge_defs(Holidays::leefiorishipping.defined_regions, Holidays::leefiorishipping.holidays_by_month)
+Holidays.merge_defs(Holidays::Leefiorishipping.defined_regions, Holidays::Leefiorishipping.holidays_by_month)

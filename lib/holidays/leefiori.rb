@@ -84,4 +84,4 @@ module Holidays
   end
 end
 
-Holidays.merge_defs(Holidays::leefiori.defined_regions, Holidays::leefiori.holidays_by_month)
+Holidays.merge_defs(Holidays::Leefiori.defined_regions, Holidays::Leefiori.holidays_by_month)
