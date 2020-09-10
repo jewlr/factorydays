@@ -62,6 +62,9 @@ describe FactoryDays do
               include_sunday: false,
               include_weekends: nil,
               num_days: 1,
+              # What is SUPPOSED to happen is that the secondary_holiday_region
+              # is used in the factory_day? calls. If this doesn't happen, then
+              # there is a failure
               secondary_holiday_region: :us,
             ),
           ).to eq(Date.new(2020, 4, 27))
