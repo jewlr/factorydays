@@ -3,6 +3,20 @@
 require 'spec_helper'
 
 describe FactoryDays do
+  describe 'factory_day?' do
+    it 'should require holiday_region' do
+      expect { Date.new(2020, 9, 14).factory_day? }.to raise_error(ArgumentError)
+    end
+
+    it 'should identify Family Day as a holiday' do
+      expect(
+        Date.new(2020, 2, 17).factory_day?(
+          holiday_region: [:jewlr],
+        ),
+      ).to be_falsey
+    end
+  end
+
   describe 'next_factory_day' do
     it 'should calculate Sept 14 2020 + 3 biz days to be Sept 17 2020' do
       expect(
