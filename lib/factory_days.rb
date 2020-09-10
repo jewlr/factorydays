@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # require_relative 'factory_days/business_weekends'
+require 'active_support/core_ext/integer'
 require_relative 'holidays'
 
 module ActiveSupport

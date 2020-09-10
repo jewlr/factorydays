@@ -1,0 +1,48 @@
+AllCops:
+  Exclude:
+    - "node_modules/**/*"
+    - "vendor/**/*"
+    - "engines/customers/test/**/*"
+Layout/LineLength:
+  Max: 100
+Lint/RaiseException:
+  Enabled: false
+Lint/StructNewOverride:
+  Enabled: true
+Metrics/AbcSize:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
+Metrics/BlockNesting:
+  Max: 5
+Metrics/ClassLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
+Metrics/ParameterLists:
+  Max: 10
+Metrics/PerceivedComplexity:
+  Enabled: false
+Style/AndOr:
+  EnforcedStyle: conditionals
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+Style/GlobalVars:
+  AllowedVariables:
+    - $redis
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma

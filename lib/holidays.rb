@@ -364,7 +364,10 @@ private
 
     regions.flatten!
 
-    require "holidays/north_america" if regions.include?(:us) # special case for north_america/US cross-linking
+    # special case for north_america/US cross-linking
+    # This induces unpredictable behaviour when :any regions is used, so
+    # we've killed it
+    # require "holidays/north_america" if regions.include?(:us)
 
     regions.each do |r|
       unless r == :any or @@regions.include?(r)
