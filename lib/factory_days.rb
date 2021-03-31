@@ -38,7 +38,6 @@ module ActiveSupport
           # options
           # :num_days
           # :holiday_region
-          # :check_holiday_start_date_only
           # :secondary_holiday_region
           # :include_saturday
           # :include_sunday
@@ -49,15 +48,13 @@ module ActiveSupport
 
           raise 'Missing required :holiday_region option' unless holiday_region
 
-          check_holiday_on_start_date_only =
-            options[:check_holiday_start_date_only] || false
           secondary_holiday_region = options[:secondary_holiday_region]
 
           factory_day_params = {
             holiday_region: holiday_region,
             include_saturday: options[:include_saturday],
             include_sunday: options[:include_sunday],
-            include_weekends: options[:include_weekends]
+            include_weekends: options[:include_weekends],
           }
 
           day_count = 0
@@ -68,20 +65,13 @@ module ActiveSupport
 
           while day_count < num_days
             next_day += 1.days
-            holiday_region = if check_holiday_on_start_date_only
-                               nil
-                             else
-                               holiday_region
-                             end
-            if secondary_holiday_region && !check_holiday_on_start_date_only
-              holiday_region = secondary_holiday_region
-            end
+            factory_day_params[:holiday_region] = if day_count.zero?
+                                                    holiday_region
+                                                  else
+                                                    secondary_holiday_region || holiday_region
+                                                  end
 
-            factory_day_params[:holiday_region] = holiday_region
-
-            if factory_day_params[:holiday_region].nil? || next_day.factory_day?(factory_day_params)
-              day_count += 1
-            end
+            day_count += 1 if next_day.factory_day?(factory_day_params)
           end
           next_day
         end
@@ -103,7 +93,7 @@ module ActiveSupport
             holiday_region: holiday_region,
             include_saturday: options[:include_saturday],
             include_sunday: options[:include_sunday],
-            include_weekends: options[:include_weekends]
+            include_weekends: options[:include_weekends],
           }
 
           day_count = 0
@@ -119,7 +109,6 @@ module ActiveSupport
         def factory_days_until(until_date, options = {})
           # options
           # :holiday_region
-          # :check_holiday_start_date_only
           # :secondary_holiday_region
           # :include_saturday
           # :include_sunday
@@ -131,8 +120,6 @@ module ActiveSupport
 
           raise 'Missing required :holiday_region option' unless holiday_region
 
-          check_holiday_on_start_date_only =
-            options[:check_holiday_start_date_only] || false
           secondary_holiday_region = options[:secondary_holiday_region]
 
           factory_days_until_params = {
@@ -143,11 +130,7 @@ module ActiveSupport
           }
 
           ((self + 1.day)..until_date).count do |date|
-            if date != self &&
-               secondary_holiday_region &&
-               !check_holiday_on_start_date_only
-              factory_days_until_params[:holiday_region] = secondary_holiday_region
-            end
+            factory_days_until_params[:holiday_region] = secondary_holiday_region || holiday_region
             date.factory_day?(factory_days_until_params)
           end
         end
@@ -202,7 +185,6 @@ module ActiveSupport
           # options
           # :num_days
           # :holiday_region
-          # :check_holiday_start_date_only
           # :secondary_holiday_region
           # :include_saturday
           # :include_sunday
@@ -213,15 +195,13 @@ module ActiveSupport
 
           raise 'Missing required :holiday_region option' unless holiday_region
 
-          check_holiday_on_start_date_only =
-            options[:check_holiday_start_date_only] || false
           secondary_holiday_region = options[:secondary_holiday_region]
 
           factory_day_params = {
             holiday_region: holiday_region,
             include_saturday: options[:include_saturday],
             include_sunday: options[:include_sunday],
-            include_weekends: options[:include_weekends]
+            include_weekends: options[:include_weekends],
           }
 
           day_count = 0
@@ -232,20 +212,13 @@ module ActiveSupport
 
           while day_count < num_days
             next_day += 1.days
-            holiday_region = if check_holiday_on_start_date_only
-                               nil
-                             else
-                               holiday_region
-                             end
-            if secondary_holiday_region && !check_holiday_on_start_date_only
-              holiday_region = secondary_holiday_region
-            end
+            factory_day_params[:holiday_region] = if day_count.zero?
+                                                    holiday_region
+                                                  else
+                                                    secondary_holiday_region || holiday_region
+                                                  end
 
-            factory_day_params[:holiday_region] = holiday_region
-
-            if factory_day_params[:holiday_region].nil? || next_day.factory_day?(factory_day_params)
-              day_count += 1
-            end
+            day_count += 1 if next_day.factory_day?(factory_day_params)
           end
           next_day
         end
@@ -267,7 +240,7 @@ module ActiveSupport
             holiday_region: holiday_region,
             include_saturday: options[:include_saturday],
             include_sunday: options[:include_sunday],
-            include_weekends: options[:include_weekends]
+            include_weekends: options[:include_weekends],
           }
 
           day_count = 0
