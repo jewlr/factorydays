@@ -79,7 +79,9 @@ module ActiveSupport
 
             factory_day_params[:holiday_region] = holiday_region
 
-            day_count += 1 if next_day.factory_day?(factory_day_params)
+            if factory_day_params[:holiday_region].nil? || next_day.factory_day?(factory_day_params)
+              day_count += 1
+            end
           end
           next_day
         end
@@ -241,7 +243,9 @@ module ActiveSupport
 
             factory_day_params[:holiday_region] = holiday_region
 
-            day_count += 1 if next_day.factory_day?(factory_day_params)
+            if factory_day_params[:holiday_region].nil? || next_day.factory_day?(factory_day_params)
+              day_count += 1
+            end
           end
           next_day
         end
