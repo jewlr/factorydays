@@ -14,15 +14,11 @@ module ActiveSupport
           # :include_saturday
           # :include_sunday
           # :include_weekends
-          holiday_region = if options[:holiday_region]
-                             Array(options[:holiday_region])
-                           end
+          holiday_region = Array(options[:holiday_region]) if options[:holiday_region]
 
-          is_holiday = if holiday_region
-                         Holidays.on(self, *holiday_region, :observed).any?
-                       else
-                         Holidays.on(self, :observed).any?
-                       end
+          raise 'Missing required :holiday_region option' unless holiday_region
+
+          is_holiday = Holidays.on(self, *holiday_region, :observed).any?
 
           if !is_holiday && (
                (1..5).cover?(wday) ||
@@ -49,9 +45,10 @@ module ActiveSupport
           # :include_weekends
 
           num_days = options[:num_days] || 1
-          holiday_region = if options[:holiday_region]
-                             Array(options[:holiday_region])
-                           end
+          holiday_region = Array(options[:holiday_region]) if options[:holiday_region]
+
+          raise 'Missing required :holiday_region option' unless holiday_region
+
           check_holiday_on_start_date_only =
             options[:check_holiday_start_date_only] || false
           secondary_holiday_region = options[:secondary_holiday_region]
@@ -96,7 +93,9 @@ module ActiveSupport
           # :include_weekends
 
           num_days = options[:num_days] || 1
-          holiday_region = options[:holiday_region] ? Array(options[:holiday_region]) : nil
+          holiday_region = Array(options[:holiday_region]) if options[:holiday_region]
+
+          raise 'Missing required :holiday_region option' unless holiday_region
 
           factory_day_params = {
             holiday_region: holiday_region,
@@ -126,12 +125,16 @@ module ActiveSupport
 
           return 0 if self > until_date
 
+          holiday_region = Array(options[:holiday_region]) if options[:holiday_region]
+
+          raise 'Missing required :holiday_region option' unless holiday_region
+
           check_holiday_on_start_date_only =
             options[:check_holiday_start_date_only] || false
           secondary_holiday_region = options[:secondary_holiday_region]
 
           factory_days_until_params = {
-            holiday_region: options[:holiday_region],
+            holiday_region: holiday_region,
             include_saturday: options[:include_saturday],
             include_sunday: options[:include_sunday],
             include_weekends: options[:include_weekends],
@@ -154,6 +157,9 @@ module ActiveSupport
           # :include_sunday
           # :include_weekends
           options[:holiday_region] = Array(options[:holiday_region]) if options[:holiday_region]
+
+          raise 'Missing required :holiday_region option' unless options[:holiday_region]
+
           until_date.factory_days_until(self, options)
         end
       end
@@ -171,16 +177,11 @@ module ActiveSupport
           # :include_saturday
           # :include_sunday
           # :include_weekends
-          holiday_region = if options[:holiday_region]
-                             Array(options[:holiday_region])
-                           end
+          holiday_region = Array(options[:holiday_region]) if options[:holiday_region]
 
-          is_holiday = if holiday_region
-                         Holidays.on(self, *holiday_region, :observed).any?
-                       else
-                         Holidays.on(self, :observed).any?
-                       end
+          raise 'Missing required :holiday_region option' unless holiday_region
 
+          is_holiday = Holidays.on(self, *holiday_region, :observed).any?
           if !is_holiday && (
                (1..5).cover?(wday) ||
                options[:include_saturday] && wday == 6 ||
@@ -206,9 +207,10 @@ module ActiveSupport
           # :include_weekends
 
           num_days = options[:num_days] || 1
-          holiday_region = if options[:holiday_region]
-                             Array(options[:holiday_region])
-                           end
+          holiday_region = Array(options[:holiday_region]) if options[:holiday_region]
+
+          raise 'Missing required :holiday_region option' unless holiday_region
+
           check_holiday_on_start_date_only =
             options[:check_holiday_start_date_only] || false
           secondary_holiday_region = options[:secondary_holiday_region]
@@ -253,7 +255,9 @@ module ActiveSupport
           # :include_weekends
 
           num_days = options[:num_days] || 1
-          holiday_region = options[:holiday_region] ? Array(options[:holiday_region]) : nil
+          holiday_region = Array(options[:holiday_region]) if options[:holiday_region]
+
+          raise 'Missing required :holiday_region option' unless holiday_region
 
           factory_day_params = {
             holiday_region: holiday_region,
