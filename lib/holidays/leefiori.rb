@@ -19,7 +19,7 @@ module Holidays
     def self.holidays_by_month
       {
       0 =>  [
-              {:function => lambda { |year| Holidays.easter(year)-2 }, :function_id => "easter(year)-2", :name => "Good Friday", :regions => [:leefiori]}
+              {:function => lambda { |year| Holidays.easter(year)-2 }, :function_id => "easter(year)-2", :name => "Good Friday", :regions => [:leefiori]},
               {:function => lambda { |year| Holidays.easter(year) }, :function_id => "easter(year)", :name => "Easter Sunday", :regions => [:jewlr]},
             ],
       1 =>  [
