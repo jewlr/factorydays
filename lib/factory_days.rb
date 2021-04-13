@@ -19,7 +19,11 @@ module ActiveSupport
                            end
 
           is_holiday = if holiday_region
-                         Holidays.on(self, *holiday_region, :observed).any?
+                         begin
+                           Holidays.on(self, *holiday_region, :observed).any?
+                         rescue Holidays::UnknownRegionError
+                           Holidays.on(self, 'jewlr', :observed).any?
+                         end
                        else
                          Holidays.on(self, :observed).any?
                        end
@@ -176,7 +180,11 @@ module ActiveSupport
                            end
 
           is_holiday = if holiday_region
-                         Holidays.on(self, *holiday_region, :observed).any?
+                         begin
+                           Holidays.on(self, *holiday_region, :observed).any?
+                         rescue Holidays::UnknownRegionError
+                           Holidays.on(self, 'jewlr', :observed).any?
+                         end
                        else
                          Holidays.on(self, :observed).any?
                        end
