@@ -64,17 +64,13 @@ module ActiveSupport
           day_count = 0
           next_day = self
 
-          # Start Date must be a factory day
+          # Start Date must be a factory day;
+          # this also handles the holiday_region check for the start_date
           next_day += 1.day until next_day.factory_day?(factory_day_params)
 
           while day_count < num_days
             next_day += 1.days
-            factory_day_params[:holiday_region] = if day_count.zero?
-                                                    holiday_region
-                                                  else
-                                                    secondary_holiday_region || holiday_region
-                                                  end
-
+            factory_day_params[:holiday_region] = secondary_holiday_region || holiday_region
             day_count += 1 if next_day.factory_day?(factory_day_params)
           end
           next_day
