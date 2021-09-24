@@ -38,7 +38,14 @@ module Holidays
               {:wday => 1, :week => 1, :name => "Civic Holiday", :regions => [:jewlrshipping]}
             ],
       9 =>  [
-              {:wday => 1, :week => 1, :name => "Labour Day", :regions => [:jewlrshipping]}
+              {:wday => 1, :week => 1, :name => "Labour Day", :regions => [:jewlrshipping]},
+              {
+                mday: 30,
+                name: 'National Day for Truth and Reconciliation',
+                observed: lambda { |date| Holidays.to_weekday_if_weekend(date) },
+                observed_id: 'to_weekday_if_weekend',
+                regions: [:jewlrshipping],
+              },
             ],
       10 => [
               {:wday => 1, :week => 2, :name => "Thanksgiving", :regions => [:jewlrshipping]}
