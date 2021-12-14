@@ -18,43 +18,76 @@ module Holidays
 
     def self.holidays_by_month
       {
-      0 =>  [
-              {:function => lambda { |year| Holidays.easter(year)-2 }, :function_id => "easter(year)-2", :name => "Good Friday", :regions => [:jewlrshipping]},
-              {:function => lambda { |year| Holidays.easter(year) }, :function_id => "easter(year)", :name => "Easter Sunday", :regions => [:jewlr]},
-            ],
-      1 =>  [
-              {:mday => 1, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "New Year's Day", :regions => [:jewlrshipping]}
-            ],
-      2 =>  [
-              {:wday => 1, :week => 3, :name => "Family Day", :regions => [:jewlrshipping]}
-            ],
-      5 =>  [
-              {:function => lambda { |year| Holidays.ca_victoria_day(year) }, :function_id => "ca_victoria_day(year)", :name => "Victoria Day", :regions => [:jewlrshipping]}
-            ],
-      7 =>  [
-              {:mday => 1, :observed => lambda { |date| Holidays.to_monday_if_weekend(date) }, :observed_id => "to_monday_if_weekend", :name => "Canada Day", :regions => [:jewlrshipping]}
-            ],
-      8 =>  [
-              {:wday => 1, :week => 1, :name => "Civic Holiday", :regions => [:jewlrshipping]}
-            ],
-      9 =>  [
-              {:wday => 1, :week => 1, :name => "Labour Day", :regions => [:jewlrshipping]},
-              {
-                mday: 30,
-                name: 'National Day for Truth and Reconciliation',
-                observed: lambda { |date| Holidays.to_weekday_if_weekend(date) },
-                observed_id: 'to_weekday_if_weekend',
-                regions: [:jewlrshipping],
-              },
-            ],
-      10 => [
-              {:wday => 1, :week => 2, :name => "Thanksgiving", :regions => [:jewlrshipping]}
-            ],
-      12 => [
-              #{:mday => 24, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => "Christmas Eve", :regions => [:jewlrshipping]},
-              {:mday => 25, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Christmas Day", :regions => [:jewlrshipping]},
-              {:mday => 26, :observed => lambda { |date| Holidays.to_weekday_if_boxing_weekend(date) }, :observed_id => "to_weekday_if_boxing_weekend", :name => "Boxing Day", :regions => [:jewlrshipping]}
-            ]
+        0 =>  [
+                {:function => lambda { |year| Holidays.easter(year)-2 }, :function_id => "easter(year)-2", :name => "Good Friday", :regions => [:jewlrshipping]},
+                {:function => lambda { |year| Holidays.easter(year) }, :function_id => "easter(year)", :name => "Easter Sunday", :regions => [:jewlr]},
+              ],
+        1 => [
+          {
+            mday: 1,
+            observed: lambda do |date|
+              Holidays.to_monday_if_weekend(date)
+            end,
+            observed_id: 'to_monday_if_weekend',
+            name: "New Year's Day",
+            regions: [:jewlrshipping],
+          },
+        ],
+        2 =>  [
+                {:wday => 1, :week => 3, :name => "Family Day", :regions => [:jewlrshipping]}
+              ],
+        5 =>  [
+                {:function => lambda { |year| Holidays.ca_victoria_day(year) }, :function_id => "ca_victoria_day(year)", :name => "Victoria Day", :regions => [:jewlrshipping]}
+              ],
+        7 =>  [
+                {:mday => 1, :observed => lambda { |date| Holidays.to_monday_if_weekend(date) }, :observed_id => "to_monday_if_weekend", :name => "Canada Day", :regions => [:jewlrshipping]}
+              ],
+        8 =>  [
+                {:wday => 1, :week => 1, :name => "Civic Holiday", :regions => [:jewlrshipping]}
+              ],
+        9 =>  [
+                {:wday => 1, :week => 1, :name => "Labour Day", :regions => [:jewlrshipping]},
+                {
+                  mday: 30,
+                  name: 'National Day for Truth and Reconciliation',
+                  observed: lambda { |date| Holidays.to_weekday_if_weekend(date) },
+                  observed_id: 'to_weekday_if_weekend',
+                  regions: [:jewlrshipping],
+                },
+              ],
+        10 => [
+                {:wday => 1, :week => 2, :name => "Thanksgiving", :regions => [:jewlrshipping]}
+              ],
+        12 => [
+          # Christmas Eve is a valid delivery day
+          # {
+          #   mday: 24,
+          #   observed: lambda do |date|
+          #     Holidays.to_friday_if_weekend(date)
+          #   end,
+          #   observed_id: 'to_friday_if_weekend',
+          #   name: 'Christmas Eve',
+          #   regions: [:jewlrshipping],
+          # },
+          {
+            mday: 25,
+            observed: lambda do |date|
+              Holidays.to_monday_if_weekend(date)
+            end,
+            observed_id: 'to_weekday_if_weekend',
+            name: 'Christmas Day',
+            regions: [:jewlrshipping],
+          },
+          {
+            mday: 26,
+            observed: lambda do |date|
+              Holidays.to_weekday_if_boxing_weekend(date)
+            end,
+            observed_id: 'to_weekday_if_boxing_weekend',
+            name: 'Boxing Day',
+            regions: [:jewlrshipping],
+          },
+        ],
       }
     end
   end

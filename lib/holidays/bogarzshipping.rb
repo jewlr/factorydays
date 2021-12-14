@@ -18,29 +18,54 @@ module Holidays
 
     def self.holidays_by_month
       {
-      1 =>  [
-              {:mday => 1, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "New Year's Day", :regions => [:bogarzshipping]}
-            ],
-      2 =>  [
-             {:wday => 1, :week => 3, :name => "President's Day", :regions => [:bogarzshipping]}
-            ],
+        1 => [
+          {
+            mday: 1,
+            observed: lambda do |date|
+              Holidays.to_weekday_if_weekend(date)
+            end,
+            observed_id: 'to_weekday_if_weekend',
+            name: "New Year's Day",
+            regions: [:bogarzshipping],
+          },
+        ],
+        2 =>  [
+               {:wday => 1, :week => 3, :name => "President's Day", :regions => [:bogarzshipping]}
+              ],
 
-      5 =>  [
-              {:wday => 1, :week => -1, :name => "Memorial Day", :regions => [:bogarzshipping]}
-            ],
-      7 =>  [
-              {:mday => 4, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Independence Day", :regions => [:bogarzshipping]}
-            ],
-      9 =>  [
-              {:wday => 1, :week => 1, :name => "Labor Day", :regions => [:bogarzshipping]}
-            ],
-      11 => [
-              {:wday => 4, :week => 4, :name => "Thanksgiving", :regions => [:bogarzshipping]}
-            ],
-      12 => [
-              #{:mday => 24, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Christmas Eve", :regions => [:bogarzshipping]},
-              {:mday => 25, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Christmas Day", :regions => [:bogarzshipping]}
-            ]
+        5 =>  [
+                {:wday => 1, :week => -1, :name => "Memorial Day", :regions => [:bogarzshipping]}
+              ],
+        7 =>  [
+                {:mday => 4, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Independence Day", :regions => [:bogarzshipping]}
+              ],
+        9 =>  [
+                {:wday => 1, :week => 1, :name => "Labor Day", :regions => [:bogarzshipping]}
+              ],
+        11 => [
+                {:wday => 4, :week => 4, :name => "Thanksgiving", :regions => [:bogarzshipping]}
+              ],
+        12 => [
+          # Christmas Eve is a valid delivery day
+          # {
+          #   mday: 24,
+          #   observed: lambda do |date|
+          #     Holidays.to_friday_if_weekend(date)
+          #   end,
+          #   observed_id: 'to_friday_if_weekend',
+          #   name: 'Christmas Eve',
+          #   regions: [:bogarzshipping],
+          # },
+          {
+            mday: 25,
+            observed: lambda do |date|
+              Holidays.to_weekday_if_weekend(date)
+            end,
+            observed_id: 'to_weekday_if_weekend',
+            name: 'Christmas Day',
+            regions: [:bogarzshipping],
+          },
+        ],
       }
     end
   end

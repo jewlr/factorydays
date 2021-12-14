@@ -18,38 +18,71 @@ module Holidays
 
     def self.holidays_by_month
       {
-      0 =>  [
-              {:function => lambda { |year| Holidays.easter(year)-2 }, :function_id => "easter(year)-2", :name => "Good Friday", :regions => [:jewlr]},
-              {:function => lambda { |year| Holidays.easter(year) }, :function_id => "easter(year)", :name => "Easter Sunday", :regions => [:jewlr]},
-            ],
-      1 =>  [
-              {:mday => 1, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "New Year's Day", :regions => [:jewlr]}
-            ],
-      2 =>  [
-              {:wday => 1, :week => 3, :name => "Family Day", :regions => [:jewlr]}
-            ],
-      5 =>  [
-              {:function => lambda { |year| Holidays.ca_victoria_day(year) }, :function_id => "ca_victoria_day(year)", :name => "Victoria Day", :regions => [:jewlr]}
-            ],
-      7 =>  [
-              {:mday => 1, :observed => lambda { |date| Holidays.to_monday_if_weekend(date) }, :observed_id => "to_monday_if_weekend", :name => "Canada Day", :regions => [:jewlr]}
-            ],
-      8 =>  [
-              {:wday => 1, :week => 1, :name => "Civic Holiday", :regions => [:jewlr]}
-            ],
-      9 =>  [
-              {:wday => 1, :week => 1, :name => "Labour Day", :regions => [:jewlr]}
-            ],
-      10 => [
-              {:wday => 1, :week => 2, :name => "Thanksgiving", :regions => [:jewlr]}
-            ],
-      12 => [
-              #{:mday => 24, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => "Christmas Eve", :regions => [:jewlr]},
-              {:mday => 24, :name => "Christmas Eve", :regions => [:jewlr]},
-              {:mday => 25, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Christmas Day", :regions => [:jewlr]},
-              {:mday => 26, :observed => lambda { |date| Holidays.to_weekday_if_boxing_weekend(date) }, :observed_id => "to_weekday_if_boxing_weekend", :name => "Boxing Day", :regions => [:jewlr]},
-              {:mday => 31, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => "New Year's Eve", :regions => [:jewlr]}
-            ]
+        0 =>  [
+                {:function => lambda { |year| Holidays.easter(year)-2 }, :function_id => "easter(year)-2", :name => "Good Friday", :regions => [:jewlr]},
+                {:function => lambda { |year| Holidays.easter(year) }, :function_id => "easter(year)", :name => "Easter Sunday", :regions => [:jewlr]},
+              ],
+        1 => [
+          {
+            mday: 1,
+            observed: lambda do |date|
+              Holidays.to_monday_if_weekend(date)
+            end,
+            observed_id: 'to_monday_if_weekend',
+            name: "New Year's Day",
+            regions: [:jewlrshipping],
+          },
+        ],
+        2 =>  [
+                {:wday => 1, :week => 3, :name => "Family Day", :regions => [:jewlr]}
+              ],
+        5 =>  [
+                {:function => lambda { |year| Holidays.ca_victoria_day(year) }, :function_id => "ca_victoria_day(year)", :name => "Victoria Day", :regions => [:jewlr]}
+              ],
+        7 =>  [
+                {:mday => 1, :observed => lambda { |date| Holidays.to_monday_if_weekend(date) }, :observed_id => "to_monday_if_weekend", :name => "Canada Day", :regions => [:jewlr]}
+              ],
+        8 =>  [
+                {:wday => 1, :week => 1, :name => "Civic Holiday", :regions => [:jewlr]}
+              ],
+        9 =>  [
+                {:wday => 1, :week => 1, :name => "Labour Day", :regions => [:jewlr]}
+              ],
+        10 => [
+                {:wday => 1, :week => 2, :name => "Thanksgiving", :regions => [:jewlr]}
+              ],
+        12 => [
+          # Christmas Eve will count as a "holiday" for manufacturing
+          {
+            mday: 24,
+            name: 'Christma Eve',
+            regions: [:jewlr],
+          },
+          {
+            mday: 25,
+            observed: lambda do |date|
+              Holidays.to_monday_if_weekend(date)
+            end,
+            observed_id: 'to_weekday_if_weekend',
+            name: 'Christmas Day',
+            regions: [:jewlr],
+          },
+          {
+            mday: 26,
+            observed: lambda do |date|
+              Holidays.to_weekday_if_boxing_weekend(date)
+            end,
+            observed_id: 'to_weekday_if_boxing_weekend',
+            name: 'Boxing Day',
+            regions: [:jewlr],
+          },
+          # New Year's Eve will count as a "holiday" for manufacturing
+          {
+            mday: 31,
+            name: "New Year's Eve",
+            regions: [:jewlr],
+          },
+        ],
       }
     end
   end
