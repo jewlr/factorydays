@@ -18,12 +18,14 @@ module ActiveSupport
 
           raise 'Missing required :holiday_region option' unless holiday_region
 
+          weekend_match = (options[:include_weekends] && [0, 6].include?(wday)) ||
+                          (options[:include_saturday] && wday == 6) ||
+                          (options[:include_sunday] && wday == 0)
           begin
             is_holiday = Holidays.on(self, *holiday_region, :observed).any? ||
                          (
                            # For weekend calculations, check if actual is holiday
-                           (include_weekends || include_saturday || include_sunday) &&
-                           Holidays.on(self, *holiday_region)
+                           weekend_match && Holidays.on(self, *holiday_region)
                          )
           rescue Holidays::UnknownRegionError
             is_holiday = Holidays.on(self, 'jewlr', :observed).any?
@@ -31,9 +33,7 @@ module ActiveSupport
 
           if !is_holiday && (
                (1..5).cover?(wday) ||
-               options[:include_saturday] && wday == 6 ||
-               options[:include_sunday] && wday == 0 ||
-               options[:include_weekends] && [0, 6].include?(wday)
+               weekend_match
              )
             return true
           end
