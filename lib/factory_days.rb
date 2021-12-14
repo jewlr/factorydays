@@ -19,7 +19,12 @@ module ActiveSupport
           raise 'Missing required :holiday_region option' unless holiday_region
 
           begin
-            is_holiday = Holidays.on(self, *holiday_region, :observed).any?
+            is_holiday = Holidays.on(self, *holiday_region, :observed).any? ||
+                         (
+                           # For weekend calculations, check if actual is holiday
+                           (include_weekends || include_saturday || include_sunday) &&
+                           Holidays.on(self, *holiday_region)
+                         )
           rescue Holidays::UnknownRegionError
             is_holiday = Holidays.on(self, 'jewlr', :observed).any?
           end
