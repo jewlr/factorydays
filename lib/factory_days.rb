@@ -25,7 +25,7 @@ module ActiveSupport
             is_holiday = Holidays.on(self, *holiday_region, :observed).any? ||
                          (
                            # For weekend calculations, check if actual is holiday
-                           weekend_match && Holidays.on(self, *holiday_region)
+                           weekend_match && Holidays.on(self, *holiday_region).any?
                          )
           rescue Holidays::UnknownRegionError
             is_holiday = Holidays.on(self, 'jewlr', :observed).any?
