@@ -29,18 +29,41 @@ module Holidays
             regions: [:bogarz],
           },
         ],
-        5 =>  [
-                {:wday => 1, :week => -1, :name => "Memorial Day", :regions => [:bogarz]}
-              ],
-        7 =>  [
-                {:mday => 4, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Independence Day", :regions => [:bogarz]}
-              ],
-        9 =>  [
-                {:wday => 1, :week => 1, :name => "Labor Day", :regions => [:bogarz]}
-              ],
+        5 => [
+          {
+            wday: 1,
+            week: -1,
+            name: 'Memorial Day',
+            regions: [:bogarz],
+          },
+        ],
+        7 => [
+          {
+            mday: 4,
+            observed: lambda do |date|
+              Holidays.to_weekday_if_weekend(date)
+            end,
+            observed_id: 'to_weekday_if_weekend',
+            name: 'Independence Day',
+            regions: [:bogarz],
+          },
+        ],
+        9 => [
+          {
+            wday: 1,
+            week: 1,
+            name: 'Labor Day',
+            regions: [:bogarz],
+          },
+        ],
         11 => [
-                {:wday => 4, :week => 4, :name => "Thanksgiving", :regions => [:bogarz]}
-              ],
+          {
+            wday: 4,
+            week: 4,
+            name: 'Thanksgiving',
+            regions: [:bogarz],
+          },
+        ],
         12 => [
           # Christmas Eve will count as a "holiday" for manufacturing
           {

@@ -29,22 +29,49 @@ module Holidays
             regions: [:bogarzshipping],
           },
         ],
-        2 =>  [
-               {:wday => 1, :week => 3, :name => "President's Day", :regions => [:bogarzshipping]}
-              ],
-
-        5 =>  [
-                {:wday => 1, :week => -1, :name => "Memorial Day", :regions => [:bogarzshipping]}
-              ],
-        7 =>  [
-                {:mday => 4, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Independence Day", :regions => [:bogarzshipping]}
-              ],
-        9 =>  [
-                {:wday => 1, :week => 1, :name => "Labor Day", :regions => [:bogarzshipping]}
-              ],
+        2 => [
+          {
+            wday: 1,
+            week: 3,
+            name: "President's Day",
+            regions: [:bogarzshipping],
+          },
+        ],
+        5 => [
+          {
+            wday: 1,
+            week: -1,
+            name: 'Memorial Day',
+            regions: [:bogarzshipping],
+          }
+        ],
+        7 => [
+          {
+            mday: 4,
+            observed: lambda do |date|
+              Holidays.to_weekday_if_weekend(date)
+            end,
+            observed_id: 'to_weekday_if_weekend',
+            name: 'Independence Day',
+            regions: [:bogarzshipping],
+          },
+        ],
+        9 => [
+          {
+            wday: 1,
+            week: 1,
+            name: 'Labor Day',
+            regions: [:bogarzshipping],
+          },
+        ],
         11 => [
-                {:wday => 4, :week => 4, :name => "Thanksgiving", :regions => [:bogarzshipping]}
-              ],
+          {
+            wday: 4,
+            week: 4,
+            name: 'Thanksgiving',
+            regions: [:bogarzshipping],
+          },
+        ],
         12 => [
           # Christmas Eve is a valid delivery day
           # {
@@ -71,4 +98,7 @@ module Holidays
   end
 end
 
-Holidays.merge_defs(Holidays::Bogarzshipping.defined_regions, Holidays::Bogarzshipping.holidays_by_month)
+Holidays.merge_defs(
+  Holidays::Bogarzshipping.defined_regions,
+  Holidays::Bogarzshipping.holidays_by_month,
+)
