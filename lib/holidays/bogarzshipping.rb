@@ -21,10 +21,12 @@ module Holidays
         1 => [
           {
             mday: 1,
-            observed: lambda do |date|
-              Holidays.to_weekday_if_weekend(date)
-            end,
-            observed_id: 'to_weekday_if_weekend',
+            ## New Year's Day holiday is only observed on actual day
+            ## for shipping purposes
+            # observed: lambda do |date|
+            #   Holidays.to_weekday_if_weekend(date)
+            # end,
+            # observed_id: 'to_weekday_if_weekend',
             name: "New Year's Day",
             regions: [:bogarzshipping],
           },
@@ -85,10 +87,12 @@ module Holidays
           # },
           {
             mday: 25,
-            observed: lambda do |date|
-              Holidays.to_weekday_if_weekend(date)
-            end,
-            observed_id: 'to_weekday_if_weekend',
+            ## Christmas Date holiday is only observed on actual day
+            ## for shipping purposes
+            # observed: lambda do |date|
+            #   Holidays.to_weekday_if_weekend(date)
+            # end,
+            # observed_id: 'to_weekday_if_weekend',
             name: 'Christmas Day',
             regions: [:bogarzshipping],
           },
