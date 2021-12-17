@@ -109,19 +109,19 @@ module Holidays
           },
           {
             mday: 25,
-            observed: lambda do |date|
-              Holidays.to_monday_if_weekend(date)
-            end,
-            observed_id: 'to_weekday_if_weekend',
+            # observed: lambda do |date|
+            #   Holidays.to_monday_if_weekend(date)
+            # end,
+            # observed_id: 'to_monday_if_weekend',
             name: 'Christmas Day',
             regions: [:jewlr],
           },
           {
-            mday: 26,
-            observed: lambda do |date|
-              Holidays.to_weekday_if_boxing_weekend(date)
-            end,
-            observed_id: 'to_weekday_if_boxing_weekend',
+            # mday: 26,
+            # observed: lambda do |date|
+            #   Holidays.to_weekday_if_boxing_weekend(date)
+            # end,
+            # observed_id: 'to_weekday_if_boxing_weekend',
             name: 'Boxing Day',
             regions: [:jewlr],
           },
