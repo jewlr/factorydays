@@ -117,7 +117,7 @@ module Holidays
             regions: [:jewlr],
           },
           {
-            # mday: 26,
+            mday: 26,
             # observed: lambda do |date|
             #   Holidays.to_weekday_if_boxing_weekend(date)
             # end,
