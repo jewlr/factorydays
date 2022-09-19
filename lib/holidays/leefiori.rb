@@ -18,48 +18,139 @@ module Holidays
 
     def self.holidays_by_month
       {
-      0 =>  [
-              {:function => lambda { |year| Holidays.easter(year)-2 }, :function_id => "easter(year)-2", :name => "Good Friday", :regions => [:leefiori]},
-              {:function => lambda { |year| Holidays.easter(year) }, :function_id => "easter(year)", :name => "Easter Sunday", :regions => [:jewlr]},
-            ],
-      1 =>  [
-              {:mday => 1, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "New Year's Day", :regions => [:leefiori]}
-            ],
-      2 =>  [
-              {:wday => 1, :week => 3, :name => "Family Day", :regions => [:leefiori]}
-            ],
-      5 =>  [
-              {:function => lambda { |year| Holidays.ca_victoria_day(year) }, :function_id => "ca_victoria_day(year)", :name => "Victoria Day", :regions => [:leefiori]}
-            ],
-      7 =>  [
-              {:mday => 1, :observed => lambda { |date| Holidays.to_monday_if_weekend(date) }, :observed_id => "to_monday_if_weekend", :name => "Canada Day", :regions => [:leefiori]}
-            ],
-      8 =>  [
-              {:wday => 1, :week => 1, :name => "Civic Holiday", :regions => [:leefiori]}
-            ],
-      9 =>  [
-              {:wday => 1, :week => 1, :name => "Labour Day", :regions => [:leefiori]}
-            ],
-      10 => [
-              {:wday => 1, :week => 2, :name => "Thanksgiving", :regions => [:leefiori]}
-            ],
-      12 => [
-              #{:mday => 24, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => "Christmas Eve", :regions => [:leefiori]},
-              {:mday => 24, :name => "Christmas Eve", :regions => [:leefiori]},
-              {:mday => 25, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Christmas Day", :regions => [:leefiori]},
-              {:mday => 26, :observed => lambda { |date| Holidays.to_weekday_if_boxing_weekend(date) }, :observed_id => "to_weekday_if_boxing_weekend", :name => "Boxing Day", :regions => [:leefiori]},
-              {:mday => 31, :observed => lambda { |date| Holidays.to_friday_if_weekend(date) }, :observed_id => "to_friday_if_weekend", :name => "New Year's Eve", :regions => [:leefiori]}
-            ]
+        0 => [
+          {
+            function: lambda do |year|
+              Holidays.easter(year) - 2
+            end,
+            function_id: 'easter(year)-2',
+            name: 'Good Friday',
+            regions: [:leefiori],
+          },
+          {
+            function: lambda do |year|
+              Holidays.easter(year)
+            end,
+            function_id: 'easter(year)',
+            name: 'Easter Sunday',
+            regions: [:leefiori],
+          },
+        ],
+        1 => [
+          {
+            mday: 1,
+            observed: lambda do |date|
+              Holidays.to_monday_if_weekend(date)
+            end,
+            observed_id: 'to_monday_if_weekend',
+            name: "New Year's Day",
+            regions: [:leefiori],
+          },
+        ],
+        2 => [
+          {
+            wday: 1,
+            week: 3,
+            name: 'Family Day',
+            regions: [:leefiori],
+          },
+        ],
+        5 => [
+          {
+            function: lambda do |year|
+              Holidays.ca_victoria_day(year)
+            end,
+            function_id: 'ca_victoria_day(year)',
+            name: 'Victoria Day',
+            regions: [:leefiori],
+          },
+        ],
+        7 => [
+          {
+            mday: 1,
+            observed: lambda do |date|
+              Holidays.to_monday_if_weekend(date)
+            end,
+            observed_id: 'to_monday_if_weekend',
+            name: 'Canada Day',
+            regions: [:leefiori],
+          },
+        ],
+        8 => [
+          {
+            wday: 1,
+            week: 1,
+            name: 'Civic Holiday',
+            regions: [:leefiori],
+          },
+        ],
+        9 => [
+          {
+            wday: 1,
+            week: 1,
+            name: 'Labour Day',
+            regions: [:leefiori],
+          },
+          {
+            mday: 30,
+            name: 'National Day for Truth and Reconciliation',
+            observed: lambda do |date|
+              Holidays.to_weekday_if_weekend(date)
+            end,
+            observed_id: 'to_weekday_if_weekend',
+            regions: [:leefiori],
+          },
+        ],
+        10 => [
+          {
+            wday: 1,
+            week: 2,
+            name: 'Thanksgiving',
+            regions: [:leefiori],
+          },
+        ],
+        12 => [
+          # Christmas Eve will count as a "holiday" for manufacturing
+          {
+            mday: 24,
+            name: 'Christma Eve',
+            regions: [:leefiori],
+          },
+          {
+            mday: 25,
+            # observed: lambda do |date|
+            #   Holidays.to_monday_if_weekend(date)
+            # end,
+            # observed_id: 'to_monday_if_weekend',
+            name: 'Christmas Day',
+            regions: [:leefiori],
+          },
+          {
+            mday: 26,
+            # observed: lambda do |date|
+            #   Holidays.to_weekday_if_boxing_weekend(date)
+            # end,
+            # observed_id: 'to_weekday_if_boxing_weekend',
+            name: 'Boxing Day',
+            regions: [:leefiori],
+          },
+          # New Year's Eve will count as a "holiday" for manufacturing
+          {
+            mday: 31,
+            name: "New Year's Eve",
+            regions: [:leefiori],
+          },
+        ],
       }
     end
   end
 
   # Monday on or before May 24
   def self.ca_victoria_day(year)
-    date = Date.civil(year,5,24)
+    date = Date.civil(year, 5, 24)
     if date.wday > 1
       date -= (date.wday - 1)
-    elsif date.wday == 0
+    elsif date.wday.zero?
       date -= 6
     end
     date
