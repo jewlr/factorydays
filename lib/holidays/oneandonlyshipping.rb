@@ -12,9 +12,9 @@ module Holidays
   #   require 'holidays/us'
   #
   # All the definitions are available at https://github.com/alexdunae/holidays
-  module Jewlrshipping # :nodoc:
+  module Oneandonlyshipping # :nodoc:
     def self.defined_regions
-      [:jewlrshipping]
+      [:oneandonlyshipping]
     end
 
     def self.holidays_by_month
@@ -26,7 +26,7 @@ module Holidays
             end,
             function_id: 'easter(year)-2',
             name: 'Good Friday',
-            regions: [:jewlrshipping],
+            regions: [:oneandonlyshipping],
           },
           {
             function: lambda do |year|
@@ -34,7 +34,7 @@ module Holidays
             end,
             function_id: 'easter(year)',
             name: 'Easter Sunday',
-            regions: [:jewlrshipping],
+            regions: [:oneandonlyshipping],
           },
         ],
         1 => [
@@ -45,7 +45,7 @@ module Holidays
             end,
             observed_id: 'to_monday_if_weekend',
             name: "New Year's Day",
-            regions: [:jewlrshipping],
+            regions: [:oneandonlyshipping],
           },
         ],
         2 => [
@@ -53,7 +53,7 @@ module Holidays
             wday: 1,
             week: 3,
             name: 'Family Day',
-            regions: [:jewlrshipping],
+            regions: [:oneandonlyshipping],
           },
         ],
         5 => [
@@ -63,7 +63,7 @@ module Holidays
             end,
             function_id: 'ca_victoria_day(year)',
             name: 'Victoria Day',
-            regions: [:jewlrshipping],
+            regions: [:oneandonlyshipping],
           },
         ],
         7 => [
@@ -74,7 +74,7 @@ module Holidays
             end,
             observed_id: 'to_monday_if_weekend',
             name: 'Canada Day',
-            regions: [:jewlrshipping],
+            regions: [:oneandonlyshipping],
           },
         ],
         8 => [
@@ -82,7 +82,7 @@ module Holidays
             wday: 1,
             week: 1,
             name: 'Civic Holiday',
-            regions: [:jewlrshipping],
+            regions: [:oneandonlyshipping],
           },
         ],
         9 => [
@@ -90,7 +90,7 @@ module Holidays
             wday: 1,
             week: 1,
             name: 'Labour Day',
-            regions: [:jewlrshipping],
+            regions: [:oneandonlyshipping],
           },
           {
             mday: 30,
@@ -99,7 +99,7 @@ module Holidays
               Holidays.to_weekday_if_weekend(date)
             end,
             observed_id: 'to_weekday_if_weekend',
-            regions: [:jewlrshipping],
+            regions: [:oneandonlyshipping],
           },
         ],
         10 => [
@@ -107,7 +107,7 @@ module Holidays
             wday: 1,
             week: 2,
             name: 'Thanksgiving',
-            regions: [:jewlrshipping],
+            regions: [:oneandonlyshipping],
           },
         ],
         12 => [
@@ -119,7 +119,7 @@ module Holidays
           #   end,
           #   observed_id: 'to_friday_if_weekend',
           #   name: 'Christmas Eve',
-          #   regions: [:jewlrshipping],
+          #   regions: [:leefiorishipping],
           # },
           {
             mday: 25,
@@ -128,7 +128,7 @@ module Holidays
             end,
             observed_id: 'to_weekday_if_weekend',
             name: 'Christmas Day',
-            regions: [:jewlrshipping],
+            regions: [:oneandonlyshipping],
           },
           {
             mday: 26,
@@ -137,7 +137,7 @@ module Holidays
             end,
             observed_id: 'to_weekday_if_boxing_weekend',
             name: 'Boxing Day',
-            regions: [:jewlrshipping],
+            regions: [:oneandonlyshipping],
           },
         ],
       }
@@ -176,6 +176,6 @@ module Holidays
 end
 
 Holidays.merge_defs(
-  Holidays::Jewlrshipping.defined_regions,
-  Holidays::Jewlrshipping.holidays_by_month,
+  Holidays::Oneandonlyshipping.defined_regions,
+  Holidays::Oneandonlyshipping.holidays_by_month,
 )
