@@ -91,15 +91,6 @@ module Holidays
             name: 'Labour Day',
             regions: [:leefiori],
           },
-          {
-            mday: 30,
-            name: 'National Day for Truth and Reconciliation',
-            observed: lambda do |date|
-              Holidays.to_weekday_if_weekend(date)
-            end,
-            observed_id: 'to_weekday_if_weekend',
-            regions: [:leefiori],
-          },
         ],
         10 => [
           {

@@ -91,15 +91,6 @@ module Holidays
             name: 'Labour Day',
             regions: [:jewlr],
           },
-          {
-            mday: 30,
-            name: 'National Day for Truth and Reconciliation',
-            observed: lambda do |date|
-              Holidays.to_weekday_if_weekend(date)
-            end,
-            observed_id: 'to_weekday_if_weekend',
-            regions: [:jewlr],
-          },
         ],
         10 => [
           {
