@@ -36,6 +36,7 @@ module ActiveSupport
                                else
                                  false
                                end
+          raise "check options #{options.inspect} and is_factory_day_off #{is_factory_day_off}"
           if (!is_holiday && !is_factory_day_off) && (
                (1..5).cover?(wday) ||
                weekend_match
