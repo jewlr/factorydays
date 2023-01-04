@@ -22,21 +22,22 @@ module ActiveSupport
           weekend_match = (options[:include_weekends] && [0, 6].include?(wday)) ||
                           (options[:include_saturday] && wday == 6) ||
                           (options[:include_sunday] && wday == 0)
-          begin
-            is_holiday = Holidays.on(self, *holiday_region, :observed).any? ||
-                         (
-                           # For weekend calculations, check if actual is holiday
-                           weekend_match && Holidays.on(self, *holiday_region).any?
-                         )
-          rescue Holidays::UnknownRegionError
-            is_holiday = Holidays.on(self, 'jewlr', :observed).any?
-          end
           is_factory_day_off = if options[:include_factory_day_off].present?
                                  options[:include_factory_day_off]
                                else
                                  false
                                end
-          if (!is_holiday || !is_factory_day_off) && (
+          begin
+            is_holiday = Holidays.on(self, *holiday_region, :observed).any? ||
+                         (
+                           # For weekend calculations, check if actual is holiday
+                           weekend_match && Holidays.on(self, *holiday_region).any?
+                         ) || is_factory_day_off
+          rescue Holidays::UnknownRegionError
+            is_holiday = Holidays.on(self, 'jewlr', :observed).any? || is_factory_day_off
+          end
+
+          if !is_holiday && (
                (1..5).cover?(wday) ||
                weekend_match
              )
