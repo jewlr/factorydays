@@ -14,6 +14,7 @@ module ActiveSupport
           # :include_saturday
           # :include_sunday
           # :include_weekends
+          # :include_factory_day_off
           holiday_region = Array(options[:holiday_region]) if options[:holiday_region]
 
           raise 'Missing required :holiday_region option' unless holiday_region
@@ -30,8 +31,12 @@ module ActiveSupport
           rescue Holidays::UnknownRegionError
             is_holiday = Holidays.on(self, 'jewlr', :observed).any?
           end
-
-          if !is_holiday && (
+          is_factory_day_off = if options[:include_factory_day_off].present?
+                                 options[:include_factory_day_off]
+                               else
+                                 false
+                               end
+          if (!is_holiday && !is_factory_day_off) && (
                (1..5).cover?(wday) ||
                weekend_match
              )
@@ -51,6 +56,7 @@ module ActiveSupport
           # :include_saturday
           # :include_sunday
           # :include_weekends
+          # :factory_day_off
 
           num_days = options[:num_days] || 1
           holiday_region = Array(options[:holiday_region]) if options[:holiday_region]
@@ -64,6 +70,7 @@ module ActiveSupport
             include_saturday: options[:include_saturday],
             include_sunday: options[:include_sunday],
             include_weekends: options[:include_weekends],
+            include_factory_day_off: options[:factory_day_off],
           }
 
           day_count = 0
