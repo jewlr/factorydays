@@ -2,7 +2,7 @@ require 'date'
 
 module FactoryOffWeekends
   def self.factory_off?(date:, manufacturers:)
-    return false unless factory_name.any?
+    return false unless manufacturers.any?
 
     manufacturers = Array(manufacturers)
 
@@ -18,7 +18,7 @@ module FactoryOffWeekends
     }
 
     factory_off_weekends_dates = manufacturers.map { |manufacturer| factory_off_weekends[manufacturer] }.inject(:&)
-    if date.include? factory_off_weekends_dates
+    if factory_off_weekends_dates.include? date
       true
     else
       false
@@ -28,5 +28,4 @@ end
 
 class Date
   include FactoryOffWeekends
-
 end
