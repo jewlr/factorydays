@@ -1,9 +1,14 @@
+# frozen_string_literal: true
+
 require 'date'
 
+# this module includes factory off weekends
 module FactoryOffWeekends
   def self.factory_off?(date:, manufacturers:)
     return false unless manufacturers.present?
 
+    # in case for DateTime
+    date = date.to_date
     manufacturers = Array(manufacturers)
 
     factory_off_weekends = {
@@ -17,15 +22,13 @@ module FactoryOffWeekends
       ],
     }
 
-    factory_off_weekends_dates = manufacturers.map { |manufacturer| factory_off_weekends[manufacturer] }.inject(:&)
+    factory_off_weekends_dates = manufacturers
+                                 .map { |manufacturer| factory_off_weekends[manufacturer] }
+                                 .inject(:&)
     if factory_off_weekends_dates.include? date
       true
     else
       false
     end
   end
-end
-
-class Date
-  include FactoryOffWeekends
 end
