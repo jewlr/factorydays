@@ -15,8 +15,18 @@ module FactoryOffWeekends
       jewlr: [
         Date.new(2023, 1, 7),
         Date.new(2023, 1, 8),
+        Date.new(2023, 1, 15),
+        Date.new(2023, 1, 22),
+        Date.new(2023, 1, 29),
+        Date.new(2023, 2, 18),
+        Date.new(2023, 2, 19),
+        Date.new(2023, 2, 20),
       ],
       bogarz: [
+        Date.new(2016, 2, 13),
+        Date.new(2016, 2, 14),
+      ],
+      madani: [
         Date.new(2016, 2, 13),
         Date.new(2016, 2, 14),
       ],
