@@ -8,8 +8,8 @@ module FactoryOffWeekends
 
     factory_off_weekends = {
       jewlr: [
-        Date.new(2023, 1, 7),
-        Date.new(2023, 1, 8),
+        Date.new(2023, 1, 14),
+        Date.new(2023, 1, 15),
       ],
       bogarz: [
         Date.new(2016, 2, 13),
