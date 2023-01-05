@@ -37,6 +37,7 @@ module ActiveSupport
             is_holiday = Holidays.on(self, 'jewlr', :observed).any?
           end
           # if factory day off is true we return false no matter what
+          # this also overrides include_saturday = true and include_sunday = true
           if is_factory_day_off == true
             return false
           end
