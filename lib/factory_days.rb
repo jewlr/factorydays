@@ -3,7 +3,7 @@
 # require_relative 'factory_days/business_weekends'
 require 'active_support/core_ext/integer'
 require_relative 'holidays'
-
+require_relative 'factory_off_weekends'
 module ActiveSupport
   module CoreExtensions
     module Date
@@ -22,21 +22,24 @@ module ActiveSupport
           weekend_match = (options[:include_weekends] && [0, 6].include?(wday)) ||
                           (options[:include_saturday] && wday == 6) ||
                           (options[:include_sunday] && wday == 0)
-          is_factory_day_off = if options[:include_factory_day_off].present?
-                                 options[:include_factory_day_off]
-                               else
-                                 false
-                               end
+
+          is_factory_day_off = FactoryOffWeekends.factory_off?(
+            date: self,
+            manufacturers: options[:holiday_region],
+          )
           begin
             is_holiday = Holidays.on(self, *holiday_region, :observed).any? ||
                          (
                            # For weekend calculations, check if actual is holiday
                            weekend_match && Holidays.on(self, *holiday_region).any?
-                         ) || is_factory_day_off
+                         )
           rescue Holidays::UnknownRegionError
-            is_holiday = Holidays.on(self, 'jewlr', :observed).any? || is_factory_day_off
+            is_holiday = Holidays.on(self, 'jewlr', :observed).any?
           end
-
+          # if factory day off is true we return false no matter what
+          if is_factory_day_off == true
+            return false
+          end
           if !is_holiday && (
                (1..5).cover?(wday) ||
                weekend_match
