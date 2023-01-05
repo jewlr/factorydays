@@ -1,7 +1,7 @@
 require 'date'
 
 module FactoryOffWeekends
-  def factory_off(date:, manufacturers:)
+  def self.factory_off?(date:, manufacturers:)
     return false unless factory_name.any?
 
     manufacturers = Array(manufacturers)
