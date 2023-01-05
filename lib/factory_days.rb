@@ -38,9 +38,8 @@ module ActiveSupport
           end
           # if factory day off is true we return false no matter what
           # this also overrides include_saturday = true and include_sunday = true
-          if is_factory_day_off == true
-            return false
-          end
+          return false if is_factory_day_off == true
+
           if !is_holiday && (
                (1..5).cover?(wday) ||
                weekend_match
@@ -188,7 +187,13 @@ module ActiveSupport
           rescue Holidays::UnknownRegionError
             is_holiday = Holidays.on(self, 'jewlr', :observed).any?
           end
-
+          is_factory_day_off = FactoryOffWeekends.factory_off?(
+            date: self,
+            manufacturers: options[:holiday_region],
+          )
+          # if factory day off is true we return false no matter what
+          # this also overrides include_saturday = true and include_sunday = true
+          return false if is_factory_day_off == true
           if !is_holiday && (
                (1..5).cover?(wday) ||
                options[:include_saturday] && wday == 6 ||
