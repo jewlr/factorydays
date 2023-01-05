@@ -23,7 +23,7 @@ module ActiveSupport
                           (options[:include_saturday] && wday == 6) ||
                           (options[:include_sunday] && wday == 0)
 
-          is_factory_day_off = FactoryOffWeekends.factory_off?(
+          is_factory_day_off = FactoryOffWeekends.factory_off(
             date: self,
             manufacturers: options[:holiday_region],
           )
