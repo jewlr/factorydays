@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# require_relative 'factory_days/business_weekends'
 require 'active_support/core_ext/integer'
 require_relative 'holidays'
 require_relative 'factory_off_weekends'
@@ -47,8 +46,6 @@ module ActiveSupport
             return true
           end
 
-          # result = business_weekends(holiday_region)
-          # result = result && result.include?(self) ? true : false
           false
         end
 
@@ -203,8 +200,6 @@ module ActiveSupport
             return true
           end
 
-          # result = business_weekends(holiday_region)
-          # result = result && result.include?(self) ? true : false
           false
         end
 
