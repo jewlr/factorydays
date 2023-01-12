@@ -33,7 +33,7 @@ module FactoryOffWeekends
     }
 
     factory_off_weekends_dates = manufacturers
-                                 .map { |manufacturer| factory_off_weekends[manufacturer] }
+                                 .map { |manufacturer| factory_off_weekends[manufacturer.to_sym] }
                                  .inject(:&)
     if factory_off_weekends_dates.include? date
       true
