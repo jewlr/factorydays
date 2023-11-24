@@ -276,7 +276,7 @@ module Holidays
   def self.to_tuesday_if_weekend(date)
     date += 2 if date.wday.zero?
     date += 3 if date.wday == 6
-    date + 3
+    date
   end
 
   # Move date to Friday if it occurs on a Saturday on Sunday.
