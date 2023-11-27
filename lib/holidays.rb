@@ -281,7 +281,7 @@ module Holidays
       date = date
       enable_holiday = true
     end
-    date, enable_holiday
+    [date, enable_holiday]
   end
   # Move date to Friday if it occurs on a Saturday on Sunday.
   # Used as a callback function.
