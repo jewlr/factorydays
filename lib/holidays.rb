@@ -163,11 +163,12 @@ module Holidays
 
           # If the :observed option is set, calculate the date when the holiday
           # is observed.
-          if observed and h[:observed]  && hs[:enable_holiday].blank?
-            date = call_proc(h[:observed], date)
-          elsif h[:disable_holiday]
-            # if it's not a holiday will make disable holiday false
-            date, disable_holiday = call_proc(h[:observed], date)
+          if observed and hs[:observed]
+            if hs[:enable_holiday].present?
+              date, enable_holiday = call_proc(hs[:observed], date)
+            else
+              date = call_proc(hs[:observed], date)
+            end
           end
 
           if date.between?(start_date, end_date) && disable_holiday == true
