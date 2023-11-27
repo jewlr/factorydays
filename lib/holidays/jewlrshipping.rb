@@ -95,10 +95,6 @@ module Holidays
           {
             mday: 30,
             name: 'National Day for Truth and Reconciliation',
-            observed: lambda do |date|
-              Holidays.to_monday_if_weekend(date)
-            end,
-            observed_id: 'to_monday_if_weekend',
             regions: [:jewlrshipping],
           },
         ],
