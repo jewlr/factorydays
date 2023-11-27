@@ -163,11 +163,14 @@ module Holidays
 
           # If the :observed option is set, calculate the date when the holiday
           # is observed.
-          if observed and h[:observed]
+          disable_holiday = false
+          if observed and h[:observed] && !h[:disable_holiday]
             date = call_proc(h[:observed], date)
+          elsif h[:disable_holiday]
+            date, disable_holiday = call_proc(h[:observed], date)
           end
 
-          if date.between?(start_date, end_date)
+          if date.between?(start_date, end_date) && disable_holiday == true
             holidays << {:date => date, :name => h[:name], :regions => h[:regions]}
           end
 
@@ -273,8 +276,12 @@ module Holidays
     date
   end
   def self.to_next_day_if_monday(date)
-    date += 1 if date.wday == 1
-    date
+    enable_holiday = false
+    if date.wday == 1
+      date = date
+      enable_holiday = true
+    end
+    date, enable_holiday
   end
   # Move date to Friday if it occurs on a Saturday on Sunday.
   # Used as a callback function.

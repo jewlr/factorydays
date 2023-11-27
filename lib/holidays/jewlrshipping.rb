@@ -105,6 +105,7 @@ module Holidays
             observed: lambda do |date|
               Holidays.to_next_day_if_monday(date)
             end,
+            enable_holiday: false,
             observed_id: 'to_next_day_if_monday',
             regions: [:jewlrshipping],
           },
@@ -114,6 +115,7 @@ module Holidays
             observed: lambda do |date|
               Holidays.to_next_day_if_monday(date)
             end,
+            enable_holiday: false,
             observed_id: 'to_next_day_if_monday',
             regions: [:jewlrshipping],
           },
