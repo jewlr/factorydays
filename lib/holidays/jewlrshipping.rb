@@ -105,7 +105,7 @@ module Holidays
             observed: lambda do |date|
               Holidays.to_next_day_if_monday(date)
             end,
-            enable_holiday: false,
+            enable_holiday: false, # dynamically we set this to true if they are in monday
             observed_id: 'to_next_day_if_monday',
             regions: [:jewlrshipping],
           },

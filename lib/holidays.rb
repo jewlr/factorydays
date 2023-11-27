@@ -129,7 +129,7 @@ module Holidays
       # TODO: test this, maybe should push then flatten
       dates[date.year] << date.month unless dates[date.year].include?(date.month)
     end
-
+    disable_holiday = true
     dates.each do |year, months|
       months.each do |month|
         next unless hbm = @@holidays_by_month[month]
@@ -163,10 +163,10 @@ module Holidays
 
           # If the :observed option is set, calculate the date when the holiday
           # is observed.
-          disable_holiday = false
-          if observed and h[:observed] && !h[:disable_holiday]
+          if observed and h[:observed]  && hs[:enable_holiday].blank?
             date = call_proc(h[:observed], date)
           elsif h[:disable_holiday]
+            # if it's not a holiday will make disable holiday false
             date, disable_holiday = call_proc(h[:observed], date)
           end
 
