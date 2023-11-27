@@ -129,7 +129,7 @@ module Holidays
       # TODO: test this, maybe should push then flatten
       dates[date.year] << date.month unless dates[date.year].include?(date.month)
     end
-    disable_holiday = true
+    enable_holiday = true
     dates.each do |year, months|
       months.each do |month|
         next unless hbm = @@holidays_by_month[month]
@@ -164,14 +164,14 @@ module Holidays
           # If the :observed option is set, calculate the date when the holiday
           # is observed.
           if observed and hs[:observed]
-            if hs[:enable_holiday].present?
+            if hs[:enable_holiday_check].present?
               date, enable_holiday = call_proc(hs[:observed], date)
             else
               date = call_proc(hs[:observed], date)
             end
           end
 
-          if date.between?(start_date, end_date) && disable_holiday == true
+          if date.between?(start_date, end_date) && enable_holiday == true
             holidays << {:date => date, :name => h[:name], :regions => h[:regions]}
           end
 
@@ -267,6 +267,14 @@ module Holidays
   def self.to_monday_if_sunday(date)
     date += 1 if date.wday == 0
     date
+  end
+
+  # Enables Holiday for Monday; used for
+  # National Day for Truth and Reconciliation
+  def self.enable_holiday_on_monday(date)
+    enable_holiday = false
+    enable_holiday = true if date.wday == 1
+    [date, enable_holiday]
   end
 
   # Move date to Monday if it occurs on a Saturday on Sunday.

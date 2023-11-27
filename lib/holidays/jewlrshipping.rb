@@ -103,20 +103,20 @@ module Holidays
             mday: 1,
             name: 'National Day for Truth and Reconciliation',
             observed: lambda do |date|
-              Holidays.to_next_day_if_monday(date)
+              Holidays.enable_holiday_on_monday(date)
             end,
-            enable_holiday: 'NO', # dynamically we set this to true if they are in monday
-            observed_id: 'to_next_day_if_monday',
+            enable_holiday_check: 'YES', # dynamically we set this to true if they are in monday
+            observed_id: 'enable_holiday_on_monday',
             regions: [:jewlrshipping],
           },
           {
             mday: 2,
             name: 'National Day for Truth and Reconciliation',
             observed: lambda do |date|
-              Holidays.to_next_day_if_monday(date)
+              Holidays.enable_holiday_on_monday(date)
             end,
-            enable_holiday: 'NO',
-            observed_id: 'to_next_day_if_monday',
+            enable_holiday_check: 'YES',
+            observed_id: 'enable_holiday_on_monday',
             regions: [:jewlrshipping],
           },
           {
