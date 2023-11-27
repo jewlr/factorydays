@@ -105,7 +105,7 @@ module Holidays
             observed: lambda do |date|
               Holidays.enable_holiday_on_monday(date)
             end,
-            enable_holiday_check: 'YES', # dynamically we set this to true if they are in monday
+            enable_holiday_check: 'YES', # This indicate that we should check for enabaling holiday
             observed_id: 'enable_holiday_on_monday',
             regions: [:jewlrshipping],
           },
@@ -115,7 +115,7 @@ module Holidays
             observed: lambda do |date|
               Holidays.enable_holiday_on_monday(date)
             end,
-            enable_holiday_check: 'YES',
+            enable_holiday_check: 'YES', # This indicate that we should check for enabaling holiday
             observed_id: 'enable_holiday_on_monday',
             regions: [:jewlrshipping],
           },
