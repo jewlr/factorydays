@@ -100,6 +100,24 @@ module Holidays
         ],
         10 => [
           {
+            mday: 1,
+            name: 'National Day for Truth and Reconciliation',
+            observed: lambda do |date|
+              Holidays.to_next_day_if_monday(date)
+            end,
+            observed_id: 'to_next_day_if_monday',
+            regions: [:jewlrshipping],
+          },
+          {
+            mday: 2,
+            name: 'National Day for Truth and Reconciliation',
+            observed: lambda do |date|
+              Holidays.to_next_day_if_monday(date)
+            end,
+            observed_id: 'to_next_day_if_monday',
+            regions: [:jewlrshipping],
+          },
+          {
             wday: 1,
             week: 2,
             name: 'Thanksgiving',
