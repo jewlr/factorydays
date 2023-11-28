@@ -138,6 +138,8 @@ module Holidays
       # Check next month's holidays as well, in case there is a holiday that gets mapped backward to
       # this date (None currently exists but future-proofing)
       next_month = date + 1.month
+      # Initialize just in case next_month is in the following year
+      dates[next_month.year] ||= [0]
       unless dates[next_month.year].include?(next_month.month)
         dates[next_month.year] << next_month.month
       end
