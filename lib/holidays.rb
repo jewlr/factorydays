@@ -131,6 +131,8 @@ module Holidays
       # Check previous month's holidays as well, in case there is a holiday that gets mapped forward
       # to this date (e.g. Sept 30)
       prev_month = date - 1.month
+      # Initialize just in case prev_month is in the previous year
+      dates[prev_month.year] ||= [0]
       unless dates[prev_month.year].include?(prev_month.month)
         dates[prev_month.year] << prev_month.month
       end
