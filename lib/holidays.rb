@@ -126,8 +126,21 @@ module Holidays
     (start_date..end_date).each do |date|
       # Always include month '0' for variable-month holidays
       dates[date.year] = [0] unless dates[date.year]
-      # TODO: test this, maybe should push then flatten
       dates[date.year] << date.month unless dates[date.year].include?(date.month)
+
+      # Check previous month's holidays as well, in case there is a holiday that gets mapped forward
+      # to this date (e.g. Sept 30)
+      prev_month = date - 1.month
+      unless dates[prev_month.year].include?(prev_month.month)
+        dates[prev_month.year] << prev_month.month
+      end
+
+      # Check next month's holidays as well, in case there is a holiday that gets mapped backward to
+      # this date (None currently exists but future-proofing)
+      next_month = date + 1.month
+      unless dates[next_month.year].include?(next_month.month)
+        dates[next_month.year] << next_month.month
+      end
     end
 
     dates.each do |year, months|
