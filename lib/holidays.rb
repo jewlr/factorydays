@@ -284,14 +284,7 @@ module Holidays
     date += 2 if date.wday == 6
     date
   end
-  def self.to_next_day_if_monday(date)
-    enable_holiday = false
-    if date.wday == 1
-      date = date
-      enable_holiday = true
-    end
-    [date, enable_holiday]
-  end
+
   # Move date to Friday if it occurs on a Saturday on Sunday.
   # Used as a callback function.
   def self.to_friday_if_weekend(date)
