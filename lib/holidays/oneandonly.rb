@@ -110,19 +110,19 @@ module Holidays
           },
           {
             mday: 25,
-            # observed: lambda do |date|
-            #   Holidays.to_monday_if_weekend(date)
-            # end,
-            # observed_id: 'to_monday_if_weekend',
+            observed: lambda do |date|
+              Holidays.to_monday_if_weekend(date)
+            end,
+            observed_id: 'to_monday_if_weekend',
             name: 'Christmas Day',
             regions: [:oneandonly],
           },
           {
             mday: 26,
-            # observed: lambda do |date|
-            #   Holidays.to_weekday_if_boxing_weekend(date)
-            # end,
-            # observed_id: 'to_weekday_if_boxing_weekend',
+            observed: lambda do |date|
+              Holidays.to_weekday_if_boxing_weekend(date)
+            end,
+            observed_id: 'to_weekday_if_boxing_weekend',
             name: 'Boxing Day',
             regions: [:oneandonly],
           },
@@ -130,6 +130,10 @@ module Holidays
           {
             mday: 31,
             name: "New Year's Eve",
+            observed: lambda do |date|
+              Holidays.to_friday_if_weekend(date)
+            end,
+            observed_id: 'to_friday_if_weekend',
             regions: [:oneandonly],
           },
         ],
