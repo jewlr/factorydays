@@ -129,6 +129,10 @@ module Holidays
           {
             mday: 31,
             name: "New Year's Eve",
+            observed: lambda do |date|
+              Holidays.to_friday_if_weekend(date)
+            end,
+            observed_id: 'to_friday_if_weekend',
             regions: [:jewlr],
           },
         ],

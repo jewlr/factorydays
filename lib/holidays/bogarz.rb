@@ -69,6 +69,10 @@ module Holidays
           {
             mday: 24,
             name: 'Christma Eve',
+            observed: lambda do |date|
+              Holidays.to_friday_if_weekend(date)
+            end,
+            observed_id: 'to_friday_if_weekend',
             regions: [:bogarz],
           },
           {
