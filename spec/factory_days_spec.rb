@@ -5,15 +5,85 @@ require 'spec_helper'
 describe FactoryDays do
   describe 'factory_day?' do
     it 'should require holiday_region' do
-      expect { Date.new(2020, 9, 14).factory_day? }.to raise_error(ArgumentError)
+      expect { Date.new(2020, 9, 14).factory_day? }
+        .to raise_error(RuntimeError, 'Missing required :holiday_region option')
     end
 
-    it 'should identify Family Day as a holiday' do
+    it 'counts Canadian Family Day as a Jewlr working day' do
       expect(
         Date.new(2020, 2, 17).factory_day?(
           holiday_region: [:jewlr],
         ),
-      ).to be_falsey
+      ).to be(true)
+    end
+  end
+
+  describe 'Jewlr holiday calendars' do
+    [:jewlr, :jewlrshipping].each do |region|
+      context "for #{region}" do
+        it 'skips Thanksgiving and counts Black Friday as a working day' do
+          expect(Date.new(2026, 11, 25).next_factory_day(holiday_region: region)).to eq(Date.new(2026, 11, 27))
+          expect(Date.new(2027, 11, 25).factory_day?(holiday_region: region)).to be(false)
+        end
+
+        it 'closes for Memorial Day and Labor Day' do
+          expect(Date.new(2027, 5, 31).factory_day?(holiday_region: region)).to be(false)
+          expect(Date.new(2026, 9, 7).factory_day?(holiday_region: region)).to be(false)
+        end
+
+        it 'counts former Canadian holidays as working days' do
+          [Date.new(2026, 4, 3), Date.new(2026, 7, 1), Date.new(2026, 9, 30), Date.new(2026, 10, 12)].each do |date|
+            expect(date.factory_day?(holiday_region: region)).to be(true), "Expected #{date} to be a working day"
+          end
+        end
+      end
+    end
+
+    it 'closes pickup on Martin Luther King, Jr. Day' do
+      date = Date.new(2027, 1, 18)
+
+      expect(date.factory_day?(holiday_region: :jewlr)).to be(true)
+      expect(date.factory_day?(holiday_region: :jewlrshipping)).to be(false)
+    end
+
+    it 'observes Saturday and Sunday holidays on adjacent weekdays for the factory' do
+      [Date.new(2026, 7, 3), Date.new(2022, 12, 26)].each do |observed_date|
+        expect(observed_date.factory_day?(holiday_region: :jewlr)).to be(false)
+        expect(observed_date.factory_day?(holiday_region: :jewlrshipping)).to be(true)
+      end
+    end
+
+    it 'keeps Saturday Christmas observance independent of other merchants' do
+      friday = Date.new(2027, 12, 24)
+      monday = Date.new(2027, 12, 27)
+
+      { leefiorishipping: monday, oneandonlyshipping: monday, jewlr: friday }.each do |region, expected_date|
+        christmas_dates = Holidays.between(friday, monday, region, :observed)
+                                  .select { |holiday| holiday[:name] == 'Christmas Day' }
+                                  .map { |holiday| holiday[:date] }
+        expect(christmas_dates).to eq([expected_date]), "Expected #{region} Christmas to be observed on #{expected_date}"
+      end
+    end
+
+    it 'closes pickup on the actual date of fixed-date holidays' do
+      [Date.new(2026, 1, 1), Date.new(2026, 7, 4), Date.new(2026, 12, 25)].each do |date|
+        expect(date.factory_day?(holiday_region: :jewlrshipping, include_weekends: true)).to be(false)
+      end
+    end
+
+    it "observes a Saturday New Year's Day on Friday in the previous year for the factory" do
+      date = Date.new(2021, 12, 31)
+
+      expect(date.holidays(:jewlr, :observed).map { |holiday| holiday[:name] })
+        .to contain_exactly("New Year's Day", "New Year's Eve")
+      expect(date.factory_day?(holiday_region: :jewlrshipping)).to be(true)
+    end
+
+    it "keeps the factory closures for Christmas Eve and weekend New Year's Eve" do
+      [Date.new(2026, 12, 24), Date.new(2022, 12, 30)].each do |date|
+        expect(date.factory_day?(holiday_region: :jewlr)).to be(false)
+        expect(date.factory_day?(holiday_region: :jewlrshipping)).to be(true)
+      end
     end
   end
 
